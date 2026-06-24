@@ -291,3 +291,151 @@ header {
   cursor: pointer;
   font-weight: 500;
 }
+
+/* === ESTILOS DO CARRINHO LATERAL === */
+
+.btn-carrinho-topo {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: var(--vinho-logo);
+  color: var(--branco-puro);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.carrinho-lateral {
+  position: fixed;
+  top: 0;
+  right: -350px; /* Começa escondido para fora da tela */
+  width: 350px;
+  height: 100%;
+  background-color: var(--branco-puro);
+  box-shadow: -5px 0 30px rgba(0,0,0,0.15);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s ease-in-out;
+}
+
+/* Quando o carrinho tiver a classe .aberto, ele desliza para dentro */
+.carrinho-lateral.aberto {
+  right: 0;
+}
+
+.carrinho-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--borda-suave);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--creme-fundo);
+}
+
+.carrinho-header h2 {
+  font-size: 1.4rem;
+  color: var(--vinho-logo);
+}
+
+.btn-fechar-carrinho {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--texto-escuro);
+}
+
+.carrinho-itens-container {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Item individual dentro do carrinho */
+.item-sacola {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--borda-suave);
+}
+
+.item-sacola-info h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.item-sacola-info p {
+  font-size: 0.85rem;
+  color: var(--vinho-logo);
+  font-weight: 600;
+}
+
+.btn-remover-item {
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+/* Footer do carrinho */
+.carrinho-footer {
+  padding: 20px;
+  border-top: 1px solid var(--borda-suave);
+  background-color: var(--creme-fundo);
+}
+
+.carrinho-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.carrinho-total id {
+  color: var(--vinho-logo);
+}
+
+.btn-finalizar-whats {
+  width: 100%;
+  background-color: #25D366; /* Verde do WhatsApp */
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  transition: background 0.2s;
+}
+
+.btn-finalizar-whats:hover {
+  background-color: #128C7E;
+}
+
+/* Background escuro de fundo */
+.carrinho-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  z-index: 1999;
+  display: none;
+}
+
+.carrinho-overlay.aberto {
+  display: block;
+}
