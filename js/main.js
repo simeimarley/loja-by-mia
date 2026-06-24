@@ -106,7 +106,7 @@ function atualizarInterfaceCarrinho() {
     let totalItens = 0;
 
     if (carrinho.length === 0) {
-        containerItens.innerHTML = `<p style="text-align:center; color:#71717a; margin-top:20px;">Sua sacola está vazia... 🌸</p>`;
+        containerItens.innerHTML = `<p style="text-align:center; color:#71717a; margin-top:20px;">Seu carrinho está vazio... 🌸</p>`;
     }
 
     carrinho.forEach(item => {
@@ -117,8 +117,8 @@ function atualizarInterfaceCarrinho() {
 
         // Modificamos aqui para criar os botões de [+] e [-] ao lado da quantidade
         containerItens.innerHTML += `
-            <div class="item-sacola">
-                <div class="item-sacola-info">
+            <div class="item-carrinho">
+                <div class="item-carrinho-info">
                     <h4>${item.nome}${statusEstoque}</h4>
                     <p>R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
                     
@@ -145,7 +145,7 @@ function alterarQuantidade(idDeProduto, mudanca) {
     if (itemEncontrado) {
         itemEncontrado.quantidade += mudanca;
         
-        // Se a quantidade chegar a 0 ou menos, removemos o item da sacola automaticamente
+        // Se a quantidade chegar a 0 ou menos, removemos o item do carrinho automaticamente
         if (itemEncontrado.quantidade <= 0) {
             removerDoCarrinho(idDeProduto);
             return;
