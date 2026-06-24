@@ -4,7 +4,7 @@ const produtos = [
   {
     id: 1,
     nome: "Baby-doll de Renda Premium - Vermelho",
-    categoria: "babydolls",
+    categoria: "camisolas",
     preco: 129.90,
     imagem: "img/teste1.jpg", // Caminho da foto na pasta img
     disponivel: true,
