@@ -1,0 +1,293 @@
+/* css/style.css */
+
+/* Importando fontes elegantes: Playfair para títulos e Montserrat para textos */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap');
+
+:root {
+  --vinho-logo: #7A0A16;      /* Bordô principal da logo */
+  --vinho-escuro: #54050E;    /* Para efeitos de passar o mouse (hover) */
+  --creme-fundo: #FFFDF9;     /* Fundo off-white sofisticado */
+  --branco-puro: #FFFFFF;
+  --texto-escuro: #2A1A1C;    /* Texto quase preto com fundo quente */
+  --cinza-indisponivel: #9ca3af;
+  --borda-suave: #F3EFEA;
+}
+
+/* Configurações Gerais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--creme-fundo);
+  color: var(--texto-escuro);
+  line-height: 1.6;
+}
+
+/* Cabeçalho / Logo */
+header {
+  background-color: var(--branco-puro);
+  border-bottom: 1px solid var(--borda-suave);
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.logo-texto {
+  font-family: 'Playfair Display', serif;
+  color: var(--vinho-logo);
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+}
+
+.slogan {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: var(--texto-escuro);
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+/* Menu de Categorias */
+.categorias {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.categorias button {
+  background-color: var(--branco-puro);
+  border: 1px solid var(--vinho-logo);
+  color: var(--vinho-logo);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.categorias button:hover {
+  background-color: var(--vinho-logo);
+  color: var(--branco-puro);
+}
+
+/* Container Principal e Grade de Produtos */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.grade-produtos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+/* Card do Produto */
+.produto-card {
+  background-color: var(--branco-puro);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(122, 10, 22, 0.04);
+  border: 1px solid var(--borda-suave);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.produto-card:hover {
+  transform: translateY(-5px);
+}
+
+.produto-imagem-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 130%; /* Mantém a proporção vertical elegante para fotos de vestuário */
+  overflow: hidden;
+  background-color: #f7f7f7;
+}
+
+.produto-imagem-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Faz a foto preencher o espaço sem distorcer */
+  transition: all 0.3s ease;
+}
+
+.produto-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.produto-nome {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.produto-preco {
+  font-weight: 600;
+  color: var(--vinho-logo);
+  font-size: 1.2rem;
+  margin-top: auto;
+  margin-bottom: 15px;
+}
+
+/* Botões de Ação */
+.btn-acao {
+  display: inline-block;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.btn-comprar {
+  background-color: var(--vinho-logo);
+  color: var(--branco-puro);
+  border: none;
+}
+
+.btn-comprar:hover {
+  background-color: var(--vinho-escuro);
+}
+
+/* === Customização para Itens ESGOTADOS (Acinzentados) === */
+.produto-card.esgotado {
+  opacity: 0.7;
+}
+
+.produto-card.esgotado .produto-imagem-wrapper img {
+  filter: grayscale(100%); /* Deixa a imagem em preto e branco */
+}
+
+.produto-card.esgotado .produto-preco {
+  color: #71717a;
+}
+
+.btn-encomenda {
+  background-color: transparent;
+  border: 1px solid #71717a;
+  color: #71717a;
+}
+
+.btn-encomenda:hover {
+  background-color: #71717a;
+  color: var(--branco-puro);
+}
+
+/* Badge de Esgotado por cima da imagem */
+.badge-esgotado {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 4px;
+  z-index: 10;
+}
+
+/* Procure por .chat-janela e substitua por este bloco completo: */
+.chat-janela {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 320px;
+  height: 400px;
+  background-color: var(--branco-puro);
+  border: 1px solid var(--borda-suave);
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+  /* Nova propriedade para animação suave ao abrir/fechar */
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* NOVA REGRA: Quando estiver minimizado, joga a caixinha para baixo, deixando apenas o topo visível */
+.chat-janela.minimizado {
+  transform: translateY(350px); /* Ajuste esse valor dependendo da altura do seu header */
+}
+
+/* NOVA REGRA: Torna o header clicável e muda o cursor do mouse */
+.chat-header {
+  background-color: var(--vinho-logo);
+  color: var(--branco-puro);
+  padding: 15px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer; /* Transforma a seta do mouse na mãozinha de clique */
+  user-select: none; /* Evita que o texto fique azul ao clicar várias vezes */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-mensagens {
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 0.9rem;
+  background-color: #FCFAF7;
+}
+
+.msg-bot {
+  background-color: #F1ECE6;
+  padding: 10px 14px;
+  border-radius: 12px 12px 12px 0;
+  align-self: flex-start;
+  max-width: 85%;
+}
+
+.chat-input-area {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid var(--borda-suave);
+  background-color: var(--branco-puro);
+}
+
+.chat-input-area input {
+  flex-grow: 1;
+  border: 1px solid var(--borda-suave);
+  padding: 8px 12px;
+  border-radius: 6px;
+  outline: none;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.chat-input-area button {
+  background-color: var(--vinho-logo);
+  color: var(--branco-puro);
+  border: none;
+  padding: 8px 15px;
+  margin-left: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
