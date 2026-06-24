@@ -40,6 +40,16 @@ function carregarProdutos(listaDeProdutos) {
     atualizarInterfaceCarrinho();
 }
 
+// Cole este bloco dentro de js/main.js (pode ser logo após a função carregarProdutos)
+function filtrarProdutos(categoria) {
+    if (categoria === 'todos') {
+        carregarProdutos(produtos);
+    } else {
+        const filtrados = produtos.filter(p => p.categoria === categoria);
+        carregarProdutos(filtrados);
+    }
+}
+
 // ==========================================
 // 2. GERENCIAMENTO DA SACOLA DE COMPRAS
 // ==========================================
