@@ -125,7 +125,7 @@ async function enviarMensagemParaIA() {
         }
 
         // Pega o texto gerado pelo Gemini
-        const respostaDaMia = dados.candidates[0].content.parts[0].text;
+        const respostaDaMia = dados.respostaMia;
 
         // 4. Injeta a resposta oficial da assistente no chat
         containerMensagens.innerHTML += `
