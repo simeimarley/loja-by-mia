@@ -95,10 +95,9 @@ async function enviarMensagemParaIA() {
         </div>
     `;
     
-    // Rola o chat automaticamente para a última mensagem
     containerMensagens.scrollTop = containerMensagens.scrollHeight;
 
-    // 2. Cria o balão de "digitando..." temporário para dar realismo
+    // 2. Cria o balão de "digitando..."
     const idIdCarregando = "msg-loading-" + Date.now();
     containerMensagens.innerHTML += `
         <div class="msg-bot" id="${idIdCarregando}">
@@ -116,15 +115,12 @@ async function enviarMensagemParaIA() {
         });
 
         const dados = await resposta.json();
-        
-        // Remove o indicador de carregamento
-        document.getElementById(idIdCarregando).remove();
 
         if (!resposta.ok) {
-            throw new Error("Erro na resposta do servidor");
+            throw new Error(dados.error || "Erro na resposta do servidor");
         }
 
-        // Pega o texto gerado pelo Gemini
+        // Pega o texto gerado pela Groq que o nosso back-end mastigou
         const respostaDaMia = dados.respostaMia;
 
         // 4. Injeta a resposta oficial da assistente no chat
@@ -136,16 +132,20 @@ async function enviarMensagemParaIA() {
 
     } catch (erro) {
         console.error("Erro no chat:", erro);
-        document.getElementById(idIdCarregando).remove();
+        // Agora, se houver erro, ele será exibido graciosamente na tela
         containerMensagens.innerHTML += `
             <div class="msg-bot" style="color: #ef4444;">
-                Desculpe, tive um probleminha técnico. Pode tentar me perguntar de novo? 💫
+                Desculpe, tive um probleminha técnico para me conectar. Pode tentar de novo? 💫
             </div>
         `;
+    } finally {
+        // O bloco 'finally' roda SEMPRE (dando certo ou errado) e remove o carregamento com segurança
+        const elementoLoading = document.getElementById(idIdCarregando);
+        if (elementoLoading) {
+            elementoLoading.remove();
+        }
+        containerMensagens.scrollTop = containerMensagens.scrollHeight;
     }
-
-    // Garante que o scroll desça até o final após a resposta chegar
-    containerMensagens.scrollTop = containerMensagens.scrollHeight;
 }
 
 // Escuta o clique no botão de Enviar do chat
