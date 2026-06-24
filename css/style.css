@@ -29,7 +29,7 @@ body {
 
 /* Cabeçalho / Logo */
 header {
-  background-color: var(--branco-puro);
+  background-color: #7A0A16;
   border-bottom: 1px solid var(--borda-suave);
   padding: 40px 20px;
   text-align: center;
@@ -37,7 +37,7 @@ header {
 
 .logo-texto {
   font-family: 'Playfair Display', serif;
-  color: var(--vinho-logo);
+  color: #FFFFFF;
   font-size: 3rem;
   font-weight: 700;
   letter-spacing: 2px;
@@ -47,7 +47,7 @@ header {
 .slogan {
   font-family: 'Playfair Display', serif;
   font-style: italic;
-  color: var(--texto-escuro);
+  color: #F5fefd;
   font-size: 1.1rem;
   opacity: 0.8;
 }
