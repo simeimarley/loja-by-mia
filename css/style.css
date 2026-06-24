@@ -360,7 +360,7 @@ header {
 }
 
 /* Item individual dentro do carrinho */
-.item-sacola {
+.item-carrinho {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -368,13 +368,13 @@ header {
   border-bottom: 1px solid var(--borda-suave);
 }
 
-.item-sacola-info h4 {
+.item-carrinho-info h4 {
   font-family: 'Playfair Display', serif;
   font-size: 0.95rem;
   margin-bottom: 4px;
 }
 
-.item-sacola-info p {
+.item-carrinho-info p {
   font-size: 0.85rem;
   color: var(--vinho-logo);
   font-weight: 600;
@@ -438,4 +438,42 @@ header {
 
 .carrinho-overlay.aberto {
   display: block;
+}
+
+/* === CONTROLES DE QUANTIDADE DENTRO DO CARRINHO === */
+
+.item-quantidade-controles {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.item-quantidade-controles button {
+  background-color: var(--creme-fundo);
+  border: 1px solid var(--borda-suave);
+  color: var(--texto-escuro);
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.item-quantidade-controles button:hover {
+  background-color: var(--vinho-logo);
+  color: var(--branco-puro);
+  border-color: var(--vinho-logo);
+}
+
+.item-quantidade-controles span {
+  font-weight: 600;
+  font-size: 0.95rem;
+  min-width: 16px;
+  text-align: center;
 }

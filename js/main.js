@@ -14,7 +14,7 @@ function carregarProdutos(listaDeProdutos) {
         const classeEsgotado = produto.disponivel ? "" : "esgotado";
         
         // Agora ambos os botões chamam funções internas do JS em vez de links diretos
-        const textoBotao = produto.disponivel ? "🛍️ Adicionar à Sacola" : "📩 Solicitar Encomenda";
+        const textoBotao = produto.disponivel ? "🛍️ Adicionar ao Carrinho" : "📩 Solicitar Encomenda";
         const classeBotao = produto.disponivel ? "btn-comprar" : "btn-encomenda";
 
         const cardHTML = `
@@ -51,7 +51,7 @@ function filtrarProdutos(categoria) {
 }
 
 // ==========================================
-// 2. GERENCIAMENTO DA SACOLA DE COMPRAS
+// 2. GERENCIAMENTO DA CARRINHO DE COMPRAS
 // ==========================================
 
 function abrirCarrinho() {
@@ -69,7 +69,7 @@ function adicionarAoCarrinho(idDeProduto) {
     const produtoEncontrado = produtos.find(p => p.id === idDeProduto);
     
     if (produtoEncontrado) {
-        // Verifica se o item já está na sacola para aumentar apenas a quantidade
+        // Verifica se o item já está no carrinho para aumentar apenas a quantidade
         const itemExistente = carrinho.find(item => item.id === idDeProduto);
         
         if (itemExistente) {
@@ -84,7 +84,7 @@ function adicionarAoCarrinho(idDeProduto) {
         // Salva as alterações no navegador do cliente
         localStorage.setItem("carrinho_bymia", JSON.stringify(carrinho));
         
-        // Atualiza as contagens e abre a sacola para dar feedback visual de sucesso
+        // Atualiza as contagens e abre o carrinho para dar feedback visual de sucesso
         atualizarInterfaceCarrinho();
         abrirCarrinho();
     }
@@ -113,14 +113,20 @@ function atualizarInterfaceCarrinho() {
         totalAcumulado += item.preco * item.quantidade;
         totalItens += item.quantidade;
 
-        // Identifica no carrinho se é uma encomenda para avisar o lojista
         const statusEstoque = item.disponivel ? "" : " <small style='color:#ef4444;'>(Sob Encomenda)</small>";
 
+        // Modificamos aqui para criar os botões de [+] e [-] ao lado da quantidade
         containerItens.innerHTML += `
             <div class="item-sacola">
                 <div class="item-sacola-info">
                     <h4>${item.nome}${statusEstoque}</h4>
-                    <p>${item.quantidade}x R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
+                    <p>R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
+                    
+                    <div class="item-quantidade-controles">
+                        <button onclick="alterarQuantidade(${item.id}, -1)">-</button>
+                        <span>${item.quantidade}</span>
+                        <button onclick="alterarQuantidade(${item.id}, 1)">+</button>
+                    </div>
                 </div>
                 <button class="btn-remover-item" onclick="removerDoCarrinho(${item.id})">Remover</button>
             </div>
@@ -131,12 +137,32 @@ function atualizarInterfaceCarrinho() {
     totalTela.innerText = `R$ ${totalAcumulado.toFixed(2).replace('.', ',')}`;
 }
 
+// NOVA FUNÇÃO: Controla o clique no + e - dentro do carrinho
+function alterarQuantidade(idDeProduto, mudanca) {
+    // Encontra o item dentro do carrinho
+    const itemEncontrado = carrinho.find(item => item.id === idDeProduto);
+    
+    if (itemEncontrado) {
+        itemEncontrado.quantidade += mudanca;
+        
+        // Se a quantidade chegar a 0 ou menos, removemos o item da sacola automaticamente
+        if (itemEncontrado.quantidade <= 0) {
+            removerDoCarrinho(idDeProduto);
+            return;
+        }
+        
+        // Salva a nova quantidade no navegador e atualiza a tela
+        localStorage.setItem("carrinho_bymia", JSON.stringify(carrinho));
+        atualizarInterfaceCarrinho();
+    }
+}
+
 // ==========================================
 // 3. COMPILAÇÃO E DISPARO PARA O WHATSAPP
 // ==========================================
 function finalizarPedidoWhats() {
     if (carrinho.length === 0) {
-        alert("Sua sacola está vazia!");
+        alert("Seu carrinho está vazio!");
         return;
     }
 
