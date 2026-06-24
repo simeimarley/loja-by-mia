@@ -131,7 +131,7 @@ function finalizarPedidoWhats() {
     }
 
     let numeroWhats = "5571982752913"; // Substitua pelo número real dela
-    let textoMensagem = "Olá, Mia! ✨\nGostaria de fazer o pedido dos seguintes itens do site:\n\n";
+    let textoMensagem = "Olá, Mia! \nGostaria de fazer o pedido dos seguintes itens do site:\n\n";
     let total = 0;
 
     carrinho.forEach(item => {
@@ -139,14 +139,14 @@ function finalizarPedidoWhats() {
         total += subtotal;
         const etiquetaEstoque = item.disponivel ? "[Pronta Entrega]" : "[PEDIDO SOB ENCOMENDA]";
         
-        textoMensagem += `🔹 ${item.quantidade}x ${item.nome}\n`;
+        textoMensagem += `    ${item.quantidade}x ${item.nome}\n`;
         textoMensagem += `    Status: ${etiquetaEstoque}\n`;
         textoMensagem += `    Valor: R$ ${subtotal.toFixed(2).replace('.', ',')}\n\n`;
     });
 
     textoMensagem += `-----------------------------\n`;
-    textoMensagem += `💰 *Valor Total do Pedido:* R$ ${total.toFixed(2).replace('.', ',')}\n\n`;
-    textoMensagem += `Como faço para prosseguir com o pagamento e entrega? 🥰`;
+    textoMensagem += ` *Valor Total do Pedido:* R$ ${total.toFixed(2).replace('.', ',')}\n\n`;
+    textoMensagem += `Como faço para prosseguir com o pagamento e entrega? `;
 
     // Converte o texto plano em um formato de URL seguro para a internet
     const linkFinal = `https://wa.me/${numeroWhats}?text=${encodeURIComponent(textoMensagem)}`;
