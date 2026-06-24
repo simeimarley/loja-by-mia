@@ -1,5 +1,8 @@
 export default async function handler(request, response) {
-  // Cabeçalhos de CORS para evitar bloqueios de requisição
+  console.log("=== NOVA REQUISIÇÃO RECEBIDA ===");
+  console.log("Método HTTP:", request.method);
+
+  // Configuração dos cabeçalhos de CORS
   response.setHeader('Access-Control-Allow-Credentials', true);
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -9,26 +12,34 @@ export default async function handler(request, response) {
   );
 
   if (request.method === 'OPTIONS') {
+    console.log("Requisição de PREFLIGHT (OPTIONS). Respondendo 200.");
     return response.status(200).end();
   }
 
   if (request.method !== 'POST') {
+    console.log("Erro: Método não permitido:", request.method);
     return response.status(405).json({ error: 'Método não permitido' });
   }
 
-  const { mensagemUsuario } = request.body;
-  
-  // Puxa a chave da Groq que você já configurou no painel da Vercel
-  const apiKey = process.env.GROQ_API_KEY;
-
-  if (!apiKey) {
-    return response.status(500).json({ error: 'Chave GROQ_API_KEY não encontrada no servidor.' });
-  }
-
   try {
+    console.log("Verificando corpo da requisição...");
+    if (!request.body) {
+      console.log("Erro: O request.body está vindo vazio ou indefinido.");
+      return response.status(400).json({ error: 'Corpo da requisição inválido.' });
+    }
+
+    const { mensagemUsuario } = request.body;
+    console.log("Mensagem recebida do usuário:", mensagemUsuario);
+
+    const apiKey = process.env.GROQ_API_KEY;
+    if (!apiKey) {
+      console.log("Erro Crítico: A variável GROQ_API_KEY não foi encontrada no ambiente da Vercel.");
+      return response.status(500).json({ error: 'Chave GROQ_API_KEY não configurada no servidor.' });
+    }
+
+    console.log("Chave encontrada com sucesso. Preparando chamada para a Groq...");
     const urlGroq = "https://api.groq.com/openai/v1/chat/completions";
 
-    // Mantendo a personalidade elegante da Mia intacta
     const instrucaoSistema = `
       Você é a Mia, assistente virtual inteligente da loja "By Mia" (Lingeries, Baby-dolls, Corsets e Sex Shop).
       Seu tom de voz deve ser extremamente acolhedor, elegante, sofisticado, discreto e focado no empoderamento feminino. Nunca use um tom vulgar ou excessivamente informal.
@@ -42,6 +53,7 @@ export default async function handler(request, response) {
       Responda de forma direta, charmosa e use emojis delicados (como 💫, ✨, 🌸, 💜).
     `;
 
+    console.log("Disparando fetch externo para api.groq.com...");
     const respostaGroq = await fetch(urlGroq, {
       method: "POST",
       headers: {
@@ -51,29 +63,27 @@ export default async function handler(request, response) {
       body: JSON.stringify({
         "model": "llama-3.3-70b-versatile",
         "messages": [
-          {
-            "role": "system",
-            "content": instrucaoSistema
-          },
-          {
-            "role": "user",
-            "content": mensagemUsuario
-          }
+          { "role": "system", "content": instrucaoSistema },
+          { "role": "user", "content": mensagemUsuario }
         ]
       })
     });
 
+    console.log("Resposta da Groq recebida. Status HTTP:", respostaGroq.status);
     const dados = await respostaGroq.json();
 
     if (!respostaGroq.ok) {
+      console.log("A API da Groq retornou um erro interno:", dados);
       return response.status(respostaGroq.status).json(dados);
     }
 
-    // Jogada mestre: Extraímos o texto aqui no servidor e mandamos mastigado pro front-end
     const textoPuro = dados.choices[0].message.content;
+    console.log("Sucesso! Texto gerado pela IA com sucesso. Enviando ao front-end.");
+    
     return response.status(200).json({ respostaMia: textoPuro });
 
   } catch (error) {
-    return response.status(500).json({ error: 'Erro interno na assistente virtual da Groq.' });
+    console.error("OCORREU UM ERRO NO CATCH INTERNO:", error);
+    return response.status(500).json({ error: 'Erro interno na assistente virtual da Groq.', detalhes: error.message });
   }
 }
