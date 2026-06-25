@@ -268,41 +268,55 @@ header {
   z-index: 10;
 }
 
+/* === DESIGN DO CHATBOT (Otimizado e Responsivo) === */
+
 .chat-janela {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 320px;
-  height: 400px;
+  width: 330px; /* Largura perfeita para leitura */
+  height: 440px; /* Altura ideal para o histórico */
   background-color: var(--branco-puro);
   border: 1px solid var(--borda-suave);
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  border-radius: 16px; /* Bordas mais modernas e arredondadas */
+  box-shadow: 0 10px 40px rgba(0,0,0,0.12);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   z-index: 1000;
-  /* Nova propriedade para animação suave ao abrir/fechar */
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Animação suave para todas as transições (abrir, fechar e encolher) */
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              width 0.3s ease, 
+              height 0.3s ease;
 }
 
-/* NOVA REGRA: Quando estiver minimizado, joga a caixinha para baixo, deixando apenas o topo visível */
+/* 🌟 CORREÇÃO DO VAZAMENTO: Faz o chat descer baseado em 100% do seu tamanho, 
+   deixando visível estritamente a altura do header (46px) */
 .chat-janela.minimizado {
-  transform: translateY(250px); /* Ajuste esse valor dependendo da altura do seu header */
+  transform: translateY(calc(100% - 46px));
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
 }
 
-/* NOVA REGRA: Torna o header clicável e muda o cursor do mouse */
 .chat-header {
   background-color: var(--vinho-logo);
   color: var(--branco-puro);
-  padding: 13px;
-  font-weight: 550;
+  padding: 0 16px;
+  font-weight: 600;
   font-size: 0.95rem;
-  cursor: pointer; /* Transforma a seta do mouse na mãozinha de clique */
-  user-select: none; /* Evita que o texto fique azul ao clicar várias vezes */
+  cursor: pointer;
+  user-select: none;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 46px; /* Altura fixa cirúrgica para o cálculo de fechar funcionar sempre */
+  box-sizing: border-box;
+}
+
+/* Evita que o texto quebre linha se o botão encolher */
+.chat-header span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .chat-mensagens {
@@ -311,44 +325,67 @@ header {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   font-size: 0.9rem;
-  background-color: #f3e1c7;
+  background-color: #fdfaf6; /* Um creme de fundo muito mais suave e limpo */
 }
 
 .msg-bot {
   background-color: #F1ECE6;
   padding: 10px 14px;
-  border-radius: 12px 12px 12px 0;
+  border-radius: 14px 14px 14px 0;
   align-self: flex-start;
   max-width: 85%;
+  line-height: 1.4;
 }
 
 .chat-input-area {
   display: flex;
-  padding: 10px;
+  padding: 12px;
   border-top: 1px solid var(--borda-suave);
   background-color: var(--branco-puro);
+  gap: 8px;
 }
 
 .chat-input-area input {
   flex-grow: 1;
   border: 1px solid var(--borda-suave);
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 10px 14px;
+  border-radius: 8px;
   outline: none;
   font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
 }
 
 .chat-input-area button {
   background-color: var(--vinho-logo);
   color: var(--branco-puro);
   border: none;
-  padding: 8px 15px;
-  margin-left: 8px;
-  border-radius: 6px;
+  padding: 0 16px;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* ==========================================
+   📱 ADAPTAÇÃO EXCLUSIVA PARA CELULARES
+   ========================================== */
+@media (max-width: 480px) {
+  /* Quando aberto no celular: ganha margens menores para se ajustar melhor */
+  .chat-janela {
+    width: calc(100% - 24px);
+    height: 400px;
+    bottom: 12px;
+    right: 12px;
+  }
+
+  /* 🔥 A SACADA: Quando minimizado no celular, ele encolhe a largura! 
+     Fica apenas um mini-botão elegante no cantinho direito, liberando os produtos da loja */
+  .chat-janela.minimizado {
+    width: 170px; 
+    transform: translateY(calc(100% - 46px));
+  }
 }
 
 /* === ESTILOS DO CARRINHO LATERAL === */
