@@ -19,13 +19,36 @@
     </header>
 
     <nav class="categorias">
-      <button onclick="filtrarProdutos('todos')">Todos</button>
-      <button onclick="filtrarProdutos('camisolas')">Camisolas</button>
-      <button onclick="filtrarProdutos('corsets')">Corsets</button>
-      <button onclick="filtrarProdutos('Cuidados')">Cuidados</button>
-      <button onclick="filtrarProdutos('lingerie')">Lingeries</button>
-      <button onclick="filtrarProdutos('sexshop')">Sex Shop</button>
-    </nav>
+  <button class="btn-cat" onclick="filtrarProdutos('todos')">
+    <span class="btn__visible">Todos</span>
+    <span class="btn__invisible">Ver Tudo ✨</span>
+  </button>
+  
+  <button class="btn-cat" onclick="filtrarProdutos('camisolas')">
+    <span class="btn__visible">Camisolas</span>
+    <span class="btn__invisible">Noite 🌙</span>
+  </button>
+  
+  <button class="btn-cat" onclick="filtrarProdutos('corsets')">
+    <span class="btn__visible">Corsets</span>
+    <span class="btn__invisible">Elegância 👑</span>
+  </button>
+  
+  <button class="btn-cat" onclick="filtrarProdutos('Cuidados')">
+    <span class="btn__visible">Cuidados</span>
+    <span class="btn__invisible">Se Ame 🌸</span>
+  </button>
+  
+  <button class="btn-cat" onclick="filtrarProdutos('lingerie')">
+    <span class="btn__visible">Lingeries</span>
+    <span class="btn__invisible">Rendas 💜</span>
+  </button>
+  
+  <button class="btn-cat" onclick="filtrarProdutos('sexshop')">
+    <span class="btn__visible">Sex Shop</span>
+    <span class="btn__invisible">Prazer 🔥</span>
+  </button>
+</nav>
 
     <main class="container">
       <div id="grade-produtos" class="grade-produtos"></div>

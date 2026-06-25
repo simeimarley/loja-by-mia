@@ -52,25 +52,76 @@ header {
   opacity: 0.8;
 }
 
-/* Menu de Categorias */
+/* === BOTÕES DE CATEGORIA (Estilo Uiverse.io adaptado para By Mia) === */
+
 .categorias {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  padding: 20px;
+  gap: 12px;
+  margin: 30px 0;
   flex-wrap: wrap;
 }
 
-.categorias button {
-  background-color: var(--branco-puro);
-  border: 1px solid var(--vinho-logo);
-  color: var(--vinho-logo);
-  padding: 8px 20px;
-  border-radius: 20px;
+.btn-cat {
   font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 30px;
+  border: 1px solid var(--vinho-logo);
+  background-color: var(--branco-puro);
+  color: var(--vinho-logo);
+  position: relative;
+  overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all ease-in-out 0.4s;
+  padding: 0; /* Deixamos o padding nas spans para o cálculo do Uiverse ficar perfeito */
+}
+
+/* Aplica a transição suave em todos os elementos internos */
+.btn-cat > * {
+  display: inline-block;
+  transition: all ease-in-out 0.4s;
+}
+
+/* Texto que já começa aparecendo */
+.btn-cat .btn__visible {
+  padding: 10px 22px;
+  text-align: center;
+}
+
+/* Texto secreto que fica escondido acima do botão */
+.btn-cat .btn__invisible {
+  width: 100%;
+  position: absolute;
+  padding: 10px 0;
+  left: 0;
+  top: -100%; /* Joga para cima, sumindo da tela */
+  font-weight: 600;
+}
+
+/* === EFEITO AO PASSAR O MOUSE (HOVER) === */
+
+.btn-cat:hover {
+  background-color: var(--vinho-logo);
+  color: var(--branco-puro);
+  border-color: var(--vinho-logo);
+  box-shadow: 0 4px 15px rgba(122, 10, 22, 0.15);
+}
+
+/* O texto principal "empurra" para baixo */
+.btn-cat:hover .btn__visible {
+  transform: translateY(100%);
+}
+
+/* O texto secreto desce ocupando o centro exato */
+.btn-cat:hover .btn__invisible {
+  top: 0;
+}
+
+.btn-cat:focus {
+  outline: none;
 }
 
 .categorias button:hover {
