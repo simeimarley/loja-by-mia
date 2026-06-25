@@ -76,7 +76,11 @@ header {
   overflow: hidden;
   cursor: pointer;
   transition: all ease-in-out 0.4s;
-  padding: 0; /* Deixamos o padding nas spans para o cálculo do Uiverse ficar perfeito */
+  padding: 0; 
+  
+  /* CORREÇÃO 1: Garante um tamanho mínimo excelente para os textos curtos respirarem */
+  min-width: 135px; 
+  height: 38px; /* Alinha a altura de todos de forma idêntica */
 }
 
 /* Aplica a transição suave em todos os elementos internos */
@@ -87,7 +91,8 @@ header {
 
 /* Texto que já começa aparecendo */
 .btn-cat .btn__visible {
-  padding: 10px 22px;
+  padding: 10px 0; /* Tiramos o padding lateral fixo para o min-width comandar */
+  width: 100%;
   text-align: center;
 }
 
@@ -97,8 +102,12 @@ header {
   position: absolute;
   padding: 10px 0;
   left: 0;
-  top: -100%; /* Joga para cima, sumindo da tela */
+  top: -100%; 
   font-weight: 600;
+  text-align: center;
+  
+  /* CORREÇÃO 2: Impede o texto de ser espremido ou quebrar linha */
+  white-space: nowrap; 
 }
 
 /* === EFEITO AO PASSAR O MOUSE (HOVER) === */
@@ -259,7 +268,6 @@ header {
   z-index: 10;
 }
 
-/* Procure por .chat-janela e substitua por este bloco completo: */
 .chat-janela {
   position: fixed;
   bottom: 20px;
@@ -280,15 +288,15 @@ header {
 
 /* NOVA REGRA: Quando estiver minimizado, joga a caixinha para baixo, deixando apenas o topo visível */
 .chat-janela.minimizado {
-  transform: translateY(350px); /* Ajuste esse valor dependendo da altura do seu header */
+  transform: translateY(250px); /* Ajuste esse valor dependendo da altura do seu header */
 }
 
 /* NOVA REGRA: Torna o header clicável e muda o cursor do mouse */
 .chat-header {
   background-color: var(--vinho-logo);
   color: var(--branco-puro);
-  padding: 15px;
-  font-weight: 600;
+  padding: 13px;
+  font-weight: 550;
   font-size: 0.95rem;
   cursor: pointer; /* Transforma a seta do mouse na mãozinha de clique */
   user-select: none; /* Evita que o texto fique azul ao clicar várias vezes */
@@ -305,7 +313,7 @@ header {
   flex-direction: column;
   gap: 10px;
   font-size: 0.9rem;
-  background-color: #FCFAF7;
+  background-color: #f3e1c7;
 }
 
 .msg-bot {
