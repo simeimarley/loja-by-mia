@@ -70,34 +70,41 @@ function carregarProdutoDetalhe() {
     document.getElementById("detalhe-img").src = produto.imagem;
     document.getElementById("detalhe-nome").innerText = produto.nome;
     document.getElementById("detalhe-preco-original").innerText = `R$ ${produto.preco.toFixed(2).replace('.', ',')}`;
-    document.getElementById("detalhe-preco-pix").innerText = `R$ ${precoPix.toFixed(2).replace('.', ',')}`;
+    
+    // CORREÇÃO: Remove o "R$" duplicado aqui, já que o HTML já possui o caractere fixo externo
+    document.getElementById("detalhe-preco-pix").innerText = `${precoPix.toFixed(2).replace('.', ',')}`;
     document.getElementById("detalhe-preco-cartao").innerText = `ou 3x de R$ ${precoParcela.toFixed(2).replace('.', ',')} sem juros`;
 
     // Renderiza pílulas de Tamanhos
     const containerTamanhos = document.getElementById("seletor-tamanhos");
-    containerTamanhos.innerHTML = "";
-    produto.tamanhos.forEach((t, i) => {
-        containerTamanhos.innerHTML += `<button class="opcao-pilula ${i === 0 ? 'ativa' : ''}" onclick="selecionarVariacao(this)">${t}</button>`;
-    });
+    if (containerTamanhos) {
+        containerTamanhos.innerHTML = "";
+        produto.tamanhos.forEach((t, i) => {
+            containerTamanhos.innerHTML += `<button class="opcao-pilula ${i === 0 ? 'ativa' : ''}" onclick="selecionarVariacao(this)">${t}</button>`;
+        });
+    }
 
     // Renderiza pílulas de Cores
     const containerCores = document.getElementById("seletor-cores");
-    containerCores.innerHTML = "";
-    produto.cores.forEach((c, i) => {
-        containerCores.innerHTML += `<button class="opcao-pilula ${i === 0 ? 'ativa' : ''}" onclick="selecionarVariacao(this)">${c}</button>`;
-    });
+    if (containerCores) {
+        containerCores.innerHTML = "";
+        produto.cores.forEach((c, i) => {
+            containerCores.innerHTML += `<button class="opcao-pilula ${i === 0 ? 'ativa' : ''}" onclick="selecionarVariacao(this)">${c}</button>`;
+        });
+    }
 
     // Configura comportamento do botão de ação principal
     const btnAcao = document.getElementById("btn-adicionar-detalhe");
-    if (produto.disponivel) {
-        btnAcao.innerHTML = "🛍️ Adicionar à Sacola";
-        btnAcao.className = "btn-comprar-detalhe";
-    } else {
-        btnAcao.innerHTML = "📩 Encomendar no Tamanho Ideal";
-        btnAcao.className = "btn-encomenda-detalhe";
+    if (btnAcao) {
+        if (produto.disponivel) {
+            btnAcao.innerHTML = "🛍️ Adicionar à Sacola";
+            btnAcao.className = "btn-comprar-detalhe";
+        } else {
+            btnAcao.innerHTML = "📩 Encomendar no Tamanho Ideal";
+            btnAcao.className = "btn-encomenda-detalhe";
+        }
+        btnAcao.onclick = () => adicionarAoCarrinhoComVariacao(produto.id);
     }
-    
-    btnAcao.onclick = () => adicionarAoCarrinhoComVariacao(produto.id);
 }
 
 function selecionarVariacao(botao) {
@@ -116,7 +123,6 @@ function adicionarAoCarrinhoComVariacao(idDeProduto) {
     const tamanhoEscolhido = tamAtivo ? tamAtivo.innerText : "Único";
     const corEscolhida = corAtiva ? corAtiva.innerText : "Padrão";
 
-    // Chave única para diferenciar produtos com variações distintas na sacola
     const carrinhoId = `${idDeProduto}-${tamanhoEscolhido}-${corEscolhida}`;
     const itemExistente = carrinho.find(item => item.carrinhoId === carrinhoId);
 
@@ -141,13 +147,17 @@ function adicionarAoCarrinhoComVariacao(idDeProduto) {
 // 3. CONTROLE DA SACOLA DE COMPRAS
 // ==========================================
 function abrirCarrinho() {
-    document.getElementById("carrinho-lateral").classList.add("aberto");
-    document.getElementById("carrinho-overlay").classList.add("aberto");
+    const lateral = document.getElementById("carrinho-lateral");
+    const overlay = document.getElementById("carrinho-overlay");
+    if (lateral) lateral.classList.add("aberto");
+    if (overlay) overlay.classList.add("aberto");
 }
 
 let fecharCarrinho = () => {
-    document.getElementById("carrinho-lateral").classList.remove("aberto");
-    document.getElementById("carrinho-overlay").classList.remove("aberto");
+    const lateral = document.getElementById("carrinho-lateral");
+    const overlay = document.getElementById("carrinho-overlay");
+    if (lateral) lateral.classList.remove("aberto");
+    if (overlay) overlay.classList.remove("aberto");
 }
 
 function removerDoCarrinho(carrinhoId) {
@@ -238,16 +248,14 @@ function finalizarPedidoWhats() {
 // ==========================================
 // 4. INTEGRAÇÃO DOS CHATS (MIA / GROQ)
 // ==========================================
-// (Deixe a sua lógica antiga de 'enviarMensagemParaIA' e controle do ChatJanela idêntica aqui abaixo)
-const btnEnviarChat = document.getElementById("btn-enviar-chat");
-const inputChat = document.getElementById("chat-input");
-const containerMensagens = document.getElementById("chat-mensagens");
-
 async function enviarMensagemParaIA() {
-    const textoMensagem = inputChat.value.trim();
-    if (!textoMensagem) return; // Se estiver vazio, não faz nada
+    const inputChat = document.getElementById("chat-input");
+    const containerMensagens = document.getElementById("chat-mensagens");
+    if (!inputChat || !containerMensagens) return;
 
-    // 1. Limpa o campo de texto e adiciona a mensagem da cliente na tela
+    const textoMensagem = inputChat.value.trim();
+    if (!textoMensagem) return; 
+
     inputChat.value = "";
     containerMensagens.innerHTML += `
         <div class="msg-usuario" style="background-color: var(--vinho-logo); color: #fff; padding: 10px 14px; border-radius: 12px 12px 0 12px; align-self: flex-end; max-width: 85%; margin-bottom: 5px;">
@@ -257,7 +265,6 @@ async function enviarMensagemParaIA() {
     
     containerMensagens.scrollTop = containerMensagens.scrollHeight;
 
-    // 2. Cria o balão de "digitando..."
     const idIdCarregando = "msg-loading-" + Date.now();
     containerMensagens.innerHTML += `
         <div class="msg-bot" id="${idIdCarregando}">
@@ -267,7 +274,6 @@ async function enviarMensagemParaIA() {
     containerMensagens.scrollTop = containerMensagens.scrollHeight;
 
     try {
-        // 3. Faz a requisição para a nossa rota do servidor na Vercel
         const resposta = await fetch("/api/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -275,15 +281,9 @@ async function enviarMensagemParaIA() {
         });
 
         const dados = await resposta.json();
+        if (!resposta.ok) throw new Error(dados.error || "Erro na resposta do servidor");
 
-        if (!resposta.ok) {
-            throw new Error(dados.error || "Erro na resposta do servidor");
-        }
-
-        // Pega o texto gerado pela Groq que o nosso back-end mastigou
         const respostaDaMia = dados.respostaMia;
-
-        // 4. Injeta a resposta oficial da assistente no chat
         containerMensagens.innerHTML += `
             <div class="msg-bot">
                 ${respostaDaMia.replace(/\n/g, '<br>')}
@@ -292,39 +292,43 @@ async function enviarMensagemParaIA() {
 
     } catch (erro) {
         console.error("Erro no chat:", erro);
-        // Agora, se houver erro, ele será exibido graciosamente na tela
         containerMensagens.innerHTML += `
             <div class="msg-bot" style="color: #ef4444;">
                 Desculpe, tive um probleminha técnico para me conectar. Pode tentar de novo? 💫
             </div>
         `;
     } finally {
-        // O bloco 'finally' roda SEMPRE (dando certo ou errado) e remove o carregamento com segurança
         const elementoLoading = document.getElementById(idIdCarregando);
-        if (elementoLoading) {
-            elementoLoading.remove();
-        }
+        if (elementoLoading) elementoLoading.remove();
         containerMensagens.scrollTop = containerMensagens.scrollHeight;
     }
 }
 
-// Escuta o clique no botão de Enviar do chat
-btnEnviarChat.addEventListener("click", enviarMensagemParaIA);
-
-// Permite enviar a mensagem apenas apertando a tecla "Enter" no teclado
-inputChat.addEventListener("keypress", (evento) => {
-    if (evento.key === "Enter") {
-        enviarMensagemParaIA();
-    }
-});
-
-// ROTEADOR DE INICIALIZAÇÃO
+// ROTEADOR DE INICIALIZAÇÃO SEGURO
 document.addEventListener("DOMContentLoaded", () => {
+    // 1. Inicializa o catálogo se estiver na Home
     if (document.getElementById("grade-produtos")) {
         carregarProdutos(produtos);
     }
+    
+    // 2. Inicializa os detalhes se estiver na página do Produto
     if (document.getElementById("detalhe-produto-container")) {
         carregarProdutoDetalhe();
     }
+    
+    // 3. Renderiza o estado atual do carrinho
     atualizarInterfaceCarrinho();
+
+    // 4. ATIVAÇÃO BLINDADA DO CHATBOT (Apenas se os elementos existirem na página atual)
+    const btnEnviarChat = document.getElementById("btn-enviar-chat");
+    const inputChat = document.getElementById("chat-input");
+
+    if (btnEnviarChat && inputChat) {
+        btnEnviarChat.addEventListener("click", enviarMensagemParaIA);
+        inputChat.addEventListener("keypress", (evento) => {
+            if (evento.key === "Enter") {
+                enviarMensagemParaIA();
+            }
+        });
+    }
 });
