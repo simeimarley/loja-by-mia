@@ -224,7 +224,7 @@ function finalizarPedidoWhats() {
     if (carrinho.length === 0) return;
 
     let numeroWhats = "5571982752913"; // Ajuste o número real aqui
-    let textoMensagem = "Olá, Mia! \u{2728}\nGostaria de encomendar os seguintes itens do site:\n\n";
+    let textoMensagem = "Olá, Mia! \nGostaria de encomendar os seguintes itens do site:\n\n";
     let total = 0;
 
     carrinho.forEach(item => {
@@ -232,15 +232,15 @@ function finalizarPedidoWhats() {
         total += subtotal;
         const etiquetaEstoque = item.disponivel ? "[Pronta Entrega]" : "[PEDIDO SOB ENCOMENDA]";
         
-        textoMensagem += `🔹 ${item.quantidade}x ${item.nome}\n`;
+        textoMensagem += ` ${item.quantidade}x ${item.nome}\n`;
         textoMensagem += `    Tamanho: ${item.tamanhoEscolhido} | Cor: ${item.corEscolhida}\n`;
         textoMensagem += `    Status: ${etiquetaEstoque}\n`;
         textoMensagem += `    Valor: R$ ${subtotal.toFixed(2).replace('.', ',')}\n\n`;
     });
 
     textoMensagem += `-----------------------------\n`;
-    textoMensagem += `\u{1F4B0} *Valor Total:* R$ ${total.toFixed(2).replace('.', ',')}\n\n`;
-    textoMensagem += `Como faço para prosseguir com o pagamento? \u{1F970}`;
+    textoMensagem += ` *Valor Total:* R$ ${total.toFixed(2).replace('.', ',')}\n\n`;
+    textoMensagem += `Como faço para prosseguir com o pagamento? `;
 
     window.open(`https://wa.me/${numeroWhats}?text=${encodeURIComponent(textoMensagem)}`, "_blank");
 }
