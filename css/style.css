@@ -747,7 +747,7 @@ header {
 }
 .opcao-pilula {
   background: var(--branco-puro);
-  border: 1px solid var(--borda-suave);
+  border: 1px solid #000000;
   padding: 8px 18px;
   border-radius: 20px;
   font-family: 'Montserrat', sans-serif;
