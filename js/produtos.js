@@ -29,6 +29,6 @@ const produtos = [
     imagem: "img/teste3.jpg",
     disponivel: true,
     tamanhos: ["P", "M", "G", "GG"],
-    cores: ["Preto", "Romance", "Marala"]
+    cores: ["Preto", "Romance", "Marsala"]
   }
 ];

@@ -239,6 +239,84 @@ function finalizarPedidoWhats() {
 // 4. INTEGRAÇÃO DOS CHATS (MIA / GROQ)
 // ==========================================
 // (Deixe a sua lógica antiga de 'enviarMensagemParaIA' e controle do ChatJanela idêntica aqui abaixo)
+const btnEnviarChat = document.getElementById("btn-enviar-chat");
+const inputChat = document.getElementById("chat-input");
+const containerMensagens = document.getElementById("chat-mensagens");
+
+async function enviarMensagemParaIA() {
+    const textoMensagem = inputChat.value.trim();
+    if (!textoMensagem) return; // Se estiver vazio, não faz nada
+
+    // 1. Limpa o campo de texto e adiciona a mensagem da cliente na tela
+    inputChat.value = "";
+    containerMensagens.innerHTML += `
+        <div class="msg-usuario" style="background-color: var(--vinho-logo); color: #fff; padding: 10px 14px; border-radius: 12px 12px 0 12px; align-self: flex-end; max-width: 85%; margin-bottom: 5px;">
+            ${textoMensagem}
+        </div>
+    `;
+    
+    containerMensagens.scrollTop = containerMensagens.scrollHeight;
+
+    // 2. Cria o balão de "digitando..."
+    const idIdCarregando = "msg-loading-" + Date.now();
+    containerMensagens.innerHTML += `
+        <div class="msg-bot" id="${idIdCarregando}">
+            <em>Mia está digitando... ✨</em>
+        </div>
+    `;
+    containerMensagens.scrollTop = containerMensagens.scrollHeight;
+
+    try {
+        // 3. Faz a requisição para a nossa rota do servidor na Vercel
+        const resposta = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mensagemUsuario: textoMensagem })
+        });
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            throw new Error(dados.error || "Erro na resposta do servidor");
+        }
+
+        // Pega o texto gerado pela Groq que o nosso back-end mastigou
+        const respostaDaMia = dados.respostaMia;
+
+        // 4. Injeta a resposta oficial da assistente no chat
+        containerMensagens.innerHTML += `
+            <div class="msg-bot">
+                ${respostaDaMia.replace(/\n/g, '<br>')}
+            </div>
+        `;
+
+    } catch (erro) {
+        console.error("Erro no chat:", erro);
+        // Agora, se houver erro, ele será exibido graciosamente na tela
+        containerMensagens.innerHTML += `
+            <div class="msg-bot" style="color: #ef4444;">
+                Desculpe, tive um probleminha técnico para me conectar. Pode tentar de novo? 💫
+            </div>
+        `;
+    } finally {
+        // O bloco 'finally' roda SEMPRE (dando certo ou errado) e remove o carregamento com segurança
+        const elementoLoading = document.getElementById(idIdCarregando);
+        if (elementoLoading) {
+            elementoLoading.remove();
+        }
+        containerMensagens.scrollTop = containerMensagens.scrollHeight;
+    }
+}
+
+// Escuta o clique no botão de Enviar do chat
+btnEnviarChat.addEventListener("click", enviarMensagemParaIA);
+
+// Permite enviar a mensagem apenas apertando a tecla "Enter" no teclado
+inputChat.addEventListener("keypress", (evento) => {
+    if (evento.key === "Enter") {
+        enviarMensagemParaIA();
+    }
+});
 
 // ROTEADOR DE INICIALIZAÇÃO
 document.addEventListener("DOMContentLoaded", () => {
