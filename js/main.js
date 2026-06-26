@@ -324,6 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const chatJanela = document.querySelector(".chat-janela");
 
     if (chatHeader && chatJanela) {
+        chatJanela.classList.add("minimizado");
         chatHeader.addEventListener("click", () => {
             chatJanela.classList.toggle("minimizado");
         });

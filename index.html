@@ -59,62 +59,64 @@
   </main>
 
   <div class="chat-janela" id="chat-janela">
-    <div class="chat-header">
-      <span>Atendente Virtual Mia 💫</span>
-    </div>
-    <div class="chat-mensagens" id="chat-mensagens">
-      <p class="msg-bot">
-        Olá! Sou a Mia, sua assistente. Como posso te ajudar a escolher a peça
-        perfeita hoje?
-      </p>
-    </div>
-    <div class="chat-input-area">
-      <input type="text" id="chat-input" placeholder="Digite sua dúvida aqui..." />
-      <button id="btn-enviar-chat">Enviar</button>
-    </div>
-  </div>
-
-  <!-- Aba Lateral do Carrinho -->
-  <div id="carrinho-lateral" class="carrinho-lateral">
-    <div class="carrinho-header">
-      <h2>Seu Carrinho 💫</h2>
-      <button class="btn-fechar-carrinho" onclick="fecharCarrinho()">✕</button>
-    </div>
-
-    <!-- Lista de itens adicionados -->
-    <div id="itens-carrinho" class="carrinho-itens-container">
-      <!-- Injetado via JS -->
-    </div>
-
-    <!-- Resumo e botão de fechar pedido -->
-    <div class="carrinho-footer">
-      <div class="carrinho-total">
-        <span>Total:</span>
-        <span id="valor-total-carrinho">R$ 0,00</span>
+    <!-- No seu index.html -->
+    <div class="chat-janela minimizado">
+      <div class="chat-header">
+        <span>Atendente Virtual Mia 💫</span>
       </div>
-      <button class="btn-finalizar-whats" onclick="finalizarPedidoWhats()">
-        🟢 Enviar Pedido para o WhatsApp
-      </button>
+      <div class="chat-mensagens" id="chat-mensagens">
+        <p class="msg-bot">
+          Olá! Sou a Mia, sua assistente. Como posso te ajudar a escolher a peça
+          perfeita hoje?
+        </p>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" id="chat-input" placeholder="Digite sua dúvida aqui..." />
+        <button id="btn-enviar-chat">Enviar</button>
+      </div>
     </div>
-  </div>
-  <!-- Fundo escuro quando o carrinho abre -->
-  <div id="carrinho-overlay" class="carrinho-overlay" onclick="fecharCarrinho()"></div>
 
-  <!--- Rodapé --->
-  <footer class="rodape-loja">
-    <div class="footer-container">
-      <p class="copyright-texto">© 2026 MarleyITSolutions. All rights reserved. - ByMia</p>
-      <p class="footer-insta-bloco">
-        <a href="https://instagram.com/bymiasz" target="_blank" class="btn-instagram-footer">
-          📸 @bymia
-        </a>
-      </p>
+    <!-- Aba Lateral do Carrinho -->
+    <div id="carrinho-lateral" class="carrinho-lateral">
+      <div class="carrinho-header">
+        <h2>Seu Carrinho 💫</h2>
+        <button class="btn-fechar-carrinho" onclick="fecharCarrinho()">✕</button>
+      </div>
+
+      <!-- Lista de itens adicionados -->
+      <div id="itens-carrinho" class="carrinho-itens-container">
+        <!-- Injetado via JS -->
+      </div>
+
+      <!-- Resumo e botão de fechar pedido -->
+      <div class="carrinho-footer">
+        <div class="carrinho-total">
+          <span>Total:</span>
+          <span id="valor-total-carrinho">R$ 0,00</span>
+        </div>
+        <button class="btn-finalizar-whats" onclick="finalizarPedidoWhats()">
+          🟢 Enviar Pedido para o WhatsApp
+        </button>
+      </div>
     </div>
-  </footer>
+    <!-- Fundo escuro quando o carrinho abre -->
+    <div id="carrinho-overlay" class="carrinho-overlay" onclick="fecharCarrinho()"></div>
 
-  <!-- Carregamento dos scripts -->
-  <script src="js/produtos.js"></script>
-  <script src="js/main.js"></script>
+    <!--- Rodapé --->
+    <footer class="rodape-loja">
+      <div class="footer-container">
+        <p class="copyright-texto">© 2026 MarleyITSolutions. All rights reserved. - ByMia</p>
+        <p class="footer-insta-bloco">
+          <a href="https://instagram.com/bymiasz" target="_blank" class="btn-instagram-footer">
+            📸 @bymia
+          </a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Carregamento dos scripts -->
+    <script src="js/produtos.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
