@@ -223,7 +223,7 @@ function atualizarInterfaceCarrinho() {
 function finalizarPedidoWhats() {
     if (carrinho.length === 0) return;
 
-    let numeroWhats = "5571999999999"; // Ajuste o número real aqui
+    let numeroWhats = "5571982752913"; // Ajuste o número real aqui
     let textoMensagem = "Olá, Mia! ✨\nGostaria de encomendar os seguintes itens do site:\n\n";
     let total = 0;
 
@@ -319,7 +319,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // 3. Renderiza o estado atual do carrinho
     atualizarInterfaceCarrinho();
 
-    // 4. ATIVAÇÃO BLINDADA DO CHATBOT (Apenas se os elementos existirem na página atual)
+    // 4. ATIVAÇÃO DO CLIQUE PARA ABRIR/MINIMIZAR O CHAT
+    const chatHeader = document.querySelector(".chat-header");
+    const chatJanela = document.querySelector(".chat-janela");
+
+    if (chatHeader && chatJanela) {
+        chatHeader.addEventListener("click", () => {
+            chatJanela.classList.toggle("minimizado");
+        });
+    }
+
+    // 5. ATIVAÇÃO BLINDADA DO ENVIO DE MENSAGENS (Apenas se os elementos existirem)
     const btnEnviarChat = document.getElementById("btn-enviar-chat");
     const inputChat = document.getElementById("chat-input");
 
