@@ -631,3 +631,162 @@ header {
     align-items: center;
   }
 }
+
+/* === OTIMIZAÇÃO DE PREÇOS (HOME) === */
+.bloco-precificacao {
+  margin: 10px 0 15px 0;
+  text-align: center;
+}
+.produto-preco-original {
+  font-size: 0.9rem;
+  color: #71717a;
+  text-decoration: line-through;
+  margin-bottom: 2px;
+}
+.produto-preco-pix {
+  font-size: 1.15rem;
+  color: var(--vinho-logo);
+  font-weight: 700;
+}
+.badge-pix {
+  font-size: 0.75rem;
+  background-color: #dcfce7;
+  color: #166534;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.produto-preco-cartao {
+  font-size: 0.8rem;
+  color: var(--texto-escuro);
+  opacity: 0.75;
+  margin-top: 2px;
+}
+.btn-ver-produto {
+  width: 100%;
+  background-color: var(--vinho-logo);
+  color: var(--branco-puro);
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* === ESTRUTURA DA PÁGINA DE DETALHES === */
+.detalhe-container {
+  max-width: 1000px;
+  margin: 30px auto 60px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+@media (min-width: 768px) {
+  .detalhe-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.detalhe-imagem-wrapper img {
+  width: 100%;
+  max-height: 550px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.06);
+}
+.detalhe-info {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.detalhe-nome {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  color: var(--texto-escuro);
+}
+.bloco-precos-detalhe {
+  background-color: var(--creme-fundo);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--borda-suave);
+}
+.preco-original-detalhe {
+  font-size: 1.1rem;
+  color: #71717a;
+  text-decoration: line-through;
+}
+.preco-pix-detalhe {
+  font-size: 2rem;
+  color: var(--vinho-logo);
+  font-weight: 700;
+  margin: 4px 0;
+}
+.preco-cartao-detalhe {
+  font-size: 0.95rem;
+  color: var(--texto-escuro);
+  opacity: 0.8;
+}
+
+/* Seletores de Pílulas de Variação */
+.variacao-bloco {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.variacao-bloco h4 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #71717a;
+}
+.opcoes-flex {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.opcao-pilula {
+  background: var(--branco-puro);
+  border: 1px solid var(--borda-suave);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.opcao-pilula:hover {
+  border-color: var(--vinho-logo);
+  color: var(--vinho-logo);
+}
+.opcao-pilula.ativa {
+  background-color: var(--vinho-logo);
+  color: var(--branco-puro);
+  border-color: var(--vinho-logo);
+  font-weight: 600;
+}
+
+/* Botões de Ação na página de Detalhes */
+.btn-comprar-detalhe, .btn-encomenda-detalhe {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  transition: background 0.2s;
+}
+.btn-comprar-detalhe {
+  background-color: var(--vinho-logo);
+  color: var(--branco-puro);
+}
+.btn-comprar-detalhe:hover {
+  background-color: #5a0710;
+}
+.btn-encomenda-detalhe {
+  background-color: #71717a;
+  color: var(--branco-puro);
+}

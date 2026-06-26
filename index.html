@@ -1,109 +1,107 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>By Mia | Lingerie & Sex Shop</title>
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <header>
-      <div class="header-container">
-        <!-- Botão do Carrinho Flutuante no Topo Direito -->
-        <button class="btn-carrinho-topo" onclick="abrirCarrinho()">
-          🛒 Carrinho (<span id="contador-carrinho">0</span>)
-        </button>
-        <h1 class="logo-texto">By Mia</h1>
-        <p class="slogan">Para você se sentir irresistível todos os dias</p>
-      </div>
-      <div>
 
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>By Mia | Lingerie & Sex Shop</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
 
-    <nav class="categorias">
-  <button class="btn-cat" onclick="filtrarProdutos('todos')">
-    <span class="btn__visible">Todos</span>
-    <span class="btn__invisible">Ver Tudo ✨</span>
-  </button>
-  
-  <button class="btn-cat" onclick="filtrarProdutos('camisolas')">
-    <span class="btn__visible">Camisolas</span>
-    <span class="btn__invisible">Noite 🌙</span>
-  </button>
-  
-  <button class="btn-cat" onclick="filtrarProdutos('corsets')">
-    <span class="btn__visible">Corsets</span>
-    <span class="btn__invisible">Elegância 👑</span>
-  </button>
-  
-  <button class="btn-cat" onclick="filtrarProdutos('Cuidados')">
-    <span class="btn__visible">Cuidados</span>
-    <span class="btn__invisible">Se Ame 🌸</span>
-  </button>
-  
-  <button class="btn-cat" onclick="filtrarProdutos('lingerie')">
-    <span class="btn__visible">Lingeries</span>
-    <span class="btn__invisible">Rendas 💜</span>
-  </button>
-  
-  <button class="btn-cat" onclick="filtrarProdutos('sexshop')">
-    <span class="btn__visible">Sex Shop</span>
-    <span class="btn__invisible">Prazer 🔥</span>
-  </button>
-</nav>
-
-    <main class="container">
-      <div id="grade-produtos" class="grade-produtos"></div>
-    </main>
-
-    <div class="chat-janela" id="chat-janela">
-      <div class="chat-header">
-        <span>Atendente Virtual Mia 💫</span>
-      </div>
-      <div class="chat-mensagens" id="chat-mensagens">
-        <p class="msg-bot">
-          Olá! Sou a Mia, sua assistente. Como posso te ajudar a escolher a peça
-          perfeita hoje?
-        </p>
-      </div>
-      <div class="chat-input-area">
-        <input
-          type="text"
-          id="chat-input"
-          placeholder="Digite sua dúvida aqui..."
-        />
-        <button id="btn-enviar-chat">Enviar</button>
-      </div>
+<body>
+  <header>
+    <div class="header-container">
+      <!-- Botão do Carrinho Flutuante no Topo Direito -->
+      <button class="btn-carrinho-topo" onclick="abrirCarrinho()">
+        🛒 Carrinho (<span id="contador-carrinho">0</span>)
+      </button>
+      <h1 class="logo-texto">By Mia</h1>
+      <p class="slogan">Para você se sentir irresistível todos os dias</p>
     </div>
+    <div>
 
-<!-- Aba Lateral do Carrinho -->
-<div id="carrinho-lateral" class="carrinho-lateral">
-  <div class="carrinho-header">
-    <h2>Seu Carrinho 💫</h2>
-    <button class="btn-fechar-carrinho" onclick="fecharCarrinho()">✕</button>
-  </div>
-  
-  <!-- Lista de itens adicionados -->
-  <div id="itens-carrinho" class="carrinho-itens-container">
-    <!-- Injetado via JS -->
-  </div>
+  </header>
 
-  <!-- Resumo e botão de fechar pedido -->
-  <div class="carrinho-footer">
-    <div class="carrinho-total">
-      <span>Total:</span>
-      <span id="valor-total-carrinho">R$ 0,00</span>
-    </div>
-    <button class="btn-finalizar-whats" onclick="finalizarPedidoWhats()">
-      🟢 Enviar Pedido para o WhatsApp
+  <nav class="categorias">
+    <button class="btn-cat" onclick="filtrarProdutos('todos')">
+      <span class="btn__visible">Todos</span>
+      <span class="btn__invisible">Ver Tudo ✨</span>
     </button>
-  </div>
-</div>
-<!-- Fundo escuro quando o carrinho abre -->
-<div id="carrinho-overlay" class="carrinho-overlay" onclick="fecharCarrinho()"></div>
 
-<!--- Rodapé --->
-<footer class="rodape-loja">
+    <button class="btn-cat" onclick="filtrarProdutos('camisolas')">
+      <span class="btn__visible">Camisolas</span>
+      <span class="btn__invisible">Noite 🌙</span>
+    </button>
+
+    <button class="btn-cat" onclick="filtrarProdutos('corsets')">
+      <span class="btn__visible">Corsets</span>
+      <span class="btn__invisible">Elegância 👑</span>
+    </button>
+
+    <button class="btn-cat" onclick="filtrarProdutos('Cuidados')">
+      <span class="btn__visible">Cuidados</span>
+      <span class="btn__invisible">Se Ame 🌸</span>
+    </button>
+
+    <button class="btn-cat" onclick="filtrarProdutos('lingerie')">
+      <span class="btn__visible">Lingeries</span>
+      <span class="btn__invisible">Rendas 💜</span>
+    </button>
+
+    <button class="btn-cat" onclick="filtrarProdutos('sexshop')">
+      <span class="btn__visible">Sex Shop</span>
+      <span class="btn__invisible">Prazer 🔥</span>
+    </button>
+  </nav>
+
+  <main class="container">
+    <div id="grade-produtos" class="grade-produtos"></div>
+  </main>
+
+  <div class="chat-janela" id="chat-janela">
+    <div class="chat-header">
+      <span>Atendente Virtual Mia 💫</span>
+    </div>
+    <div class="chat-mensagens" id="chat-mensagens">
+      <p class="msg-bot">
+        Olá! Sou a Mia, sua assistente. Como posso te ajudar a escolher a peça
+        perfeita hoje?
+      </p>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chat-input" placeholder="Digite sua dúvida aqui..." />
+      <button id="btn-enviar-chat">Enviar</button>
+    </div>
+  </div>
+
+  <!-- Aba Lateral do Carrinho -->
+  <div id="carrinho-lateral" class="carrinho-lateral">
+    <div class="carrinho-header">
+      <h2>Seu Carrinho 💫</h2>
+      <button class="btn-fechar-carrinho" onclick="fecharCarrinho()">✕</button>
+    </div>
+
+    <!-- Lista de itens adicionados -->
+    <div id="itens-carrinho" class="carrinho-itens-container">
+      <!-- Injetado via JS -->
+    </div>
+
+    <!-- Resumo e botão de fechar pedido -->
+    <div class="carrinho-footer">
+      <div class="carrinho-total">
+        <span>Total:</span>
+        <span id="valor-total-carrinho">R$ 0,00</span>
+      </div>
+      <button class="btn-finalizar-whats" onclick="finalizarPedidoWhats()">
+        🟢 Enviar Pedido para o WhatsApp
+      </button>
+    </div>
+  </div>
+  <!-- Fundo escuro quando o carrinho abre -->
+  <div id="carrinho-overlay" class="carrinho-overlay" onclick="fecharCarrinho()"></div>
+
+  <!--- Rodapé --->
+  <footer class="rodape-loja">
     <div class="footer-container">
       <p class="copyright-texto">© 2026 MarleyITSolutions. All rights reserved. - ByMia</p>
       <p class="footer-insta-bloco">
@@ -114,8 +112,9 @@
     </div>
   </footer>
 
- <!-- Carregamento dos scripts -->
-     <script src="js/produtos.js"></script>
-    <script src="js/main.js"></script>
-  </body>
+  <!-- Carregamento dos scripts -->
+  <script src="js/produtos.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
 </html>

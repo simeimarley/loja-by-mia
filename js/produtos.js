@@ -8,7 +8,8 @@ const produtos = [
     preco: 129.90,
     imagem: "img/teste1.jpg", // Caminho da foto na pasta img
     disponivel: true,
-    linkWhats: "https://wa.me/5571982752913?text=Olá+Mia!+Vi+no+site+a+Camisola+Vermelho+e+gostaria+de+saber+a+disponibilidade+de+tamanhos."
+    tamanhos: ["P", "M", "G", "GG"],
+    cores: ["Preto", "Romance", "Marala"]
   },
   {
     id: 2,
@@ -17,6 +18,17 @@ const produtos = [
     preco: 89.90,
     imagem: "img/teste.jpg", // Caminho da foto na pasta img
     disponivel: false, // Fora de estoque -> vai ficar cinza
-    linkWhats: "https://wa.me/5571982752913?text=Olá+Mia!+Vi+o+Conjunto+Rendado+Roxo+no+site.+Sei+que+está+esgotado+a+pronta+entrega,+mas+gostaria+de+encomendar!"
+    tamanhos: ["P", "M", "G", "GG"],
+    cores: ["Preto", "Romance", "Marala"]
+  },
+  {
+    id: 3,
+    nome: "Corset de Sedução - Branco",
+    categoria: "corsets",
+    preco: 159.90,
+    imagem: "img/teste3.jpg",
+    disponivel: true,
+    tamanhos: ["P", "M", "G", "GG"],
+    cores: ["Preto", "Romance", "Marala"]
   }
 ];

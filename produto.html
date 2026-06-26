@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>By Mia | Detalhes do Produto</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <button class="btn-carrinho-topo" onclick="abrirCarrinho()">
+        🛒 Sacola (<span id="contador-carrinho">0</span>)
+      </button>
+      <h1 class="logo-texto" onclick="window.location.href='index.html'" style="cursor:pointer;">By Mia</h1>
+      <p class="slogan">Para você se sentir irresistível todos os dias</p>
+    </div>
+  </header>
+
+  <main class="main-conteudo">
+    <div style="max-width: 1200px; margin: 20px auto; padding: 0 20px;">
+       <button onclick="window.location.href='index.html'" class="opcao-pilula">← Voltar ao Catálogo</button>
+    </div>
+
+    <section id="detalhe-produto-container" class="detalhe-container">
+      <div class="detalhe-imagem-wrapper">
+        <img id="detalhe-img" src="" alt="Carregando imagem...">
+      </div>
+      
+      <div class="detalhe-info">
+        <h2 id="detalhe-nome" class="detalhe-nome">Nome do Produto</h2>
+        
+        <div class="bloco-precos-detalhe">
+          <p id="detalhe-preco-original" class="preco-original-detalhe">R$ 0,00</p>
+          <p class="preco-pix-detalhe">R$ <span id="detalhe-preco-pix">0,00</span> <span class="badge-pix">no PIX (10% OFF)</span></p>
+          <p id="detalhe-preco-cartao" class="preco-cartao-detalhe">ou 3x de R$ 0,00 sem juros</p>
+        </div>
+
+        <div class="variacao-bloco">
+          <h4>Escolha o Tamanho:</h4>
+          <div id="seletor-tamanhos" class="opcoes-flex"></div>
+        </div>
+
+        <div class="variacao-bloco">
+          <h4>Escolha a Cor:</h4>
+          <div id="seletor-cores" class="opcoes-flex"></div>
+        </div>
+
+        <button id="btn-adicionar-detalhe" class="btn-comprar-detalhe">🛍️ Adicionar à Sacola</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="carrinho-lateral" class="carrinho-lateral">
+    <div class="carrinho-header">
+      <h2>Sua Sacola 💫</h2>
+      <button class="btn-fechar-carrinho" onclick="fecharCarrinho()">✕</button>
+    </div>
+    <div id="itens-carrinho" class="carrinho-itens-container"></div>
+    <div class="carrinho-footer">
+      <div class="carrinho-total">
+        <span>Total:</span>
+        <span id="valor-total-carrinho">R$ 0,00</span>
+      </div>
+      <button class="btn-finalizar-whats" onclick="finalizarPedidoWhats()">🟢 Enviar Pedido para o WhatsApp</button>
+    </div>
+  </div>
+  <div id="carrinho-overlay" class="carrinho-overlay" onclick="fecharCarrinho()"></div>
+
+  <footer class="rodape-loja">
+    <div class="footer-container">
+      <p class="copyright-texto">© 2026 MarleyITSolutioons. All rights reserved. - ByMia</p>
+      <p class="footer-insta-bloco">
+        <a href="https://instagram.com/seu_perfil" target="_blank" class="btn-instagram-footer">📸 @bymia</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/produtos.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

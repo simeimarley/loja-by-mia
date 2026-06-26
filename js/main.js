@@ -1,46 +1,46 @@
 // js/main.js
 
-// Estado global do carrinho (Tenta puxar do navegador, se não existir começa vazio)
+// Estado global do carrinho
 let carrinho = JSON.parse(localStorage.getItem("carrinho_bymia")) || [];
 
 // ==========================================
-// 1. RENDERIZAÇÃO DOS PRODUTOS NA TELA
+// 1. RENDERIZAÇÃO DO CATALOGO (HOME)
 // ==========================================
 function carregarProdutos(listaDeProdutos) {
     const grade = document.getElementById("grade-produtos");
+    if (!grade) return;
     grade.innerHTML = ""; 
 
     listaDeProdutos.forEach(produto => {
         const classeEsgotado = produto.disponivel ? "" : "esgotado";
         
-        // Agora ambos os botões chamam funções internas do JS em vez de links diretos
-        const textoBotao = produto.disponivel ? "🛍️ Adicionar ao Carrinho" : "📩 Solicitar Encomenda";
-        const classeBotao = produto.disponivel ? "btn-comprar" : "btn-encomenda";
+        // Cálculos de Otimização de Preço (Estilo Click Sophia)
+        const precoPix = produto.preco * 0.90; // 10% de desconto no PIX
+        const precoParcela = produto.preco / 3; // Parcelamento em 3x
 
+        // O box inteiro (.produto-card) agora possui o evento de clique para a página de detalhes
         const cardHTML = `
-            <div class="produto-card ${classeEsgotado}">
+            <div class="produto-card ${classeEsgotado}" onclick="window.location.href='produto.html?id=${produto.id}'" style="cursor: pointer;">
                 <div class="produto-imagem-wrapper">
                     ${!produto.disponivel ? '<span class="badge-esgotado">Sob Encomenda</span>' : ''}
                     <img src="${produto.imagem}" alt="${produto.nome}">
                 </div>
                 <div class="produto-info">
                     <h3 class="produto-nome">${produto.nome}</h3>
-                    <p class="produto-preco">R$ ${produto.preco.toFixed(2).replace('.', ',')}</p>
-                    <button onclick="adicionarAoCarrinho(${produto.id})" class="btn-acao ${classeBotao}">
-                        ${textoBotao}
-                    </button>
+                    <div class="bloco-precificacao">
+                        <p class="produto-preco-original">R$ ${produto.preco.toFixed(2).replace('.', ',')}</p>
+                        <p class="produto-preco-pix">R$ ${precoPix.toFixed(2).replace('.', ',')} <span class="badge-pix">no PIX (10% OFF)</span></p>
+                        <p class="produto-preco-cartao">ou 3x de R$ ${precoParcela.toFixed(2).replace('.', ',')} sem juros</p>
+                    </div>
+                    <button class="btn-ver-produto">Ver Opções ✨</button>
                 </div>
             </div>
         `;
         
         grade.innerHTML += cardHTML;
     });
-    
-    // Inicializa os números do carrinho na tela caso o cliente já tivesse itens salvos
-    atualizarInterfaceCarrinho();
 }
 
-// Cole este bloco dentro de js/main.js (pode ser logo após a função carregarProdutos)
 function filtrarProdutos(categoria) {
     if (categoria === 'todos') {
         carregarProdutos(produtos);
@@ -51,49 +51,122 @@ function filtrarProdutos(categoria) {
 }
 
 // ==========================================
-// 2. GERENCIAMENTO DA CARRINHO DE COMPRAS
+// 2. DINÂMICA DA PÁGINA DE DETALHES
 // ==========================================
+function carregarProdutoDetalhe() {
+    const params = new URLSearchParams(window.location.search);
+    const idProduto = parseInt(params.get("id"));
+    
+    const produto = produtos.find(p => p.id === idProduto);
+    if (!produto) {
+        document.getElementById("detalhe-produto-container").innerHTML = "<h2 style='text-align:center; margin: 50px 0;'>Produto não encontrado... 🌸</h2>";
+        return;
+    }
 
+    const precoPix = produto.preco * 0.90;
+    const precoParcela = produto.preco / 3;
+
+    // Injeta os dados nas tags da página de detalhes
+    document.getElementById("detalhe-img").src = produto.imagem;
+    document.getElementById("detalhe-nome").innerText = produto.nome;
+    document.getElementById("detalhe-preco-original").innerText = `R$ ${produto.preco.toFixed(2).replace('.', ',')}`;
+    document.getElementById("detalhe-preco-pix").innerText = `R$ ${precoPix.toFixed(2).replace('.', ',')}`;
+    document.getElementById("detalhe-preco-cartao").innerText = `ou 3x de R$ ${precoParcela.toFixed(2).replace('.', ',')} sem juros`;
+
+    // Renderiza pílulas de Tamanhos
+    const containerTamanhos = document.getElementById("seletor-tamanhos");
+    containerTamanhos.innerHTML = "";
+    produto.tamanhos.forEach((t, i) => {
+        containerTamanhos.innerHTML += `<button class="opcao-pilula ${i === 0 ? 'ativa' : ''}" onclick="selecionarVariacao(this)">${t}</button>`;
+    });
+
+    // Renderiza pílulas de Cores
+    const containerCores = document.getElementById("seletor-cores");
+    containerCores.innerHTML = "";
+    produto.cores.forEach((c, i) => {
+        containerCores.innerHTML += `<button class="opcao-pilula ${i === 0 ? 'ativa' : ''}" onclick="selecionarVariacao(this)">${c}</button>`;
+    });
+
+    // Configura comportamento do botão de ação principal
+    const btnAcao = document.getElementById("btn-adicionar-detalhe");
+    if (produto.disponivel) {
+        btnAcao.innerHTML = "🛍️ Adicionar à Sacola";
+        btnAcao.className = "btn-comprar-detalhe";
+    } else {
+        btnAcao.innerHTML = "📩 Encomendar no Tamanho Ideal";
+        btnAcao.className = "btn-encomenda-detalhe";
+    }
+    
+    btnAcao.onclick = () => adicionarAoCarrinhoComVariacao(produto.id);
+}
+
+function selecionarVariacao(botao) {
+    const botoesIrmaos = botao.parentNode.querySelectorAll(".opcao-pilula");
+    botoesIrmaos.forEach(b => b.classList.remove("ativa"));
+    botao.classList.add("ativa");
+}
+
+function adicionarAoCarrinhoComVariacao(idDeProduto) {
+    const produto = produtos.find(p => p.id === idDeProduto);
+    if (!produto) return;
+
+    const tamAtivo = document.querySelector("#seletor-tamanhos .opcao-pilula.ativa");
+    const corAtiva = document.querySelector("#seletor-cores .opcao-pilula.ativa");
+
+    const tamanhoEscolhido = tamAtivo ? tamAtivo.innerText : "Único";
+    const corEscolhida = corAtiva ? corAtiva.innerText : "Padrão";
+
+    // Chave única para diferenciar produtos com variações distintas na sacola
+    const carrinhoId = `${idDeProduto}-${tamanhoEscolhido}-${corEscolhida}`;
+    const itemExistente = carrinho.find(item => item.carrinhoId === carrinhoId);
+
+    if (itemExistente) {
+        itemExistente.quantidade += 1;
+    } else {
+        carrinho.push({
+            ...produto,
+            carrinhoId: carrinhoId,
+            tamanhoEscolhido: tamanhoEscolhido,
+            corEscolhida: corEscolhida,
+            quantidade: 1
+        });
+    }
+
+    localStorage.setItem("carrinho_bymia", JSON.stringify(carrinho));
+    atualizarInterfaceCarrinho();
+    abrirCarrinho();
+}
+
+// ==========================================
+// 3. CONTROLE DA SACOLA DE COMPRAS
+// ==========================================
 function abrirCarrinho() {
     document.getElementById("carrinho-lateral").classList.add("aberto");
     document.getElementById("carrinho-overlay").classList.add("aberto");
 }
 
-function fecharCarrinho() {
+let fecharCarrinho = () => {
     document.getElementById("carrinho-lateral").classList.remove("aberto");
     document.getElementById("carrinho-overlay").classList.remove("aberto");
 }
 
-function adicionarAoCarrinho(idDeProduto) {
-    // Procura o produto completo dentro do array do arquivo produtos.js
-    const produtoEncontrado = produtos.find(p => p.id === idDeProduto);
-    
-    if (produtoEncontrado) {
-        // Verifica se o item já está no carrinho para aumentar apenas a quantidade
-        const itemExistente = carrinho.find(item => item.id === idDeProduto);
-        
-        if (itemExistente) {
-            itemExistente.quantidade += 1;
-        } else {
-            carrinho.push({
-                ...produtoEncontrado,
-                quantidade: 1
-            });
-        }
-        
-        // Salva as alterações no navegador do cliente
-        localStorage.setItem("carrinho_bymia", JSON.stringify(carrinho));
-        
-        // Atualiza as contagens e abre o carrinho para dar feedback visual de sucesso
-        atualizarInterfaceCarrinho();
-        abrirCarrinho();
-    }
-}
-
-function removerDoCarrinho(idDeProduto) {
-    carrinho = carrinho.filter(item => item.id !== idDeProduto);
+function removerDoCarrinho(carrinhoId) {
+    carrinho = carrinho.filter(item => item.carrinhoId !== carrinhoId);
     localStorage.setItem("carrinho_bymia", JSON.stringify(carrinho));
     atualizarInterfaceCarrinho();
+}
+
+function alterarQuantidade(carrinhoId, mudanca) {
+    const item = carrinho.find(item => item.carrinhoId === carrinhoId);
+    if (item) {
+        item.quantidade += mudanca;
+        if (item.quantidade <= 0) {
+            removerDoCarrinho(carrinhoId);
+            return;
+        }
+        localStorage.setItem("carrinho_bymia", JSON.stringify(carrinho));
+        atualizarInterfaceCarrinho();
+    }
 }
 
 function atualizarInterfaceCarrinho() {
@@ -101,12 +174,13 @@ function atualizarInterfaceCarrinho() {
     const contadorTopo = document.getElementById("contador-carrinho");
     const totalTela = document.getElementById("valor-total-carrinho");
     
+    if (!containerItens) return;
     containerItens.innerHTML = "";
     let totalAcumulado = 0;
     let totalItens = 0;
 
     if (carrinho.length === 0) {
-        containerItens.innerHTML = `<p style="text-align:center; color:#71717a; margin-top:20px;">Seu carrinho está vazio... 🌸</p>`;
+        containerItens.innerHTML = `<p style="text-align:center; color:#71717a; margin-top:20px;">Sua sacola está vazia... 🌸</p>`;
     }
 
     carrinho.forEach(item => {
@@ -115,59 +189,32 @@ function atualizarInterfaceCarrinho() {
 
         const statusEstoque = item.disponivel ? "" : " <small style='color:#ef4444;'>(Sob Encomenda)</small>";
 
-        // Modificamos aqui para criar os botões de [+] e [-] ao lado da quantidade
         containerItens.innerHTML += `
-            <div class="item-carrinho">
-                <div class="item-carrinho-info">
+            <div class="item-sacola">
+                <div class="item-sacola-info">
                     <h4>${item.nome}${statusEstoque}</h4>
+                    <small style="color: #71717a; display: block; margin: 2px 0 6px 0;">Tam: ${item.tamanhoEscolhido} | Cor: ${item.corEscolhida}</small>
                     <p>R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
-                    
                     <div class="item-quantidade-controles">
-                        <button onclick="alterarQuantidade(${item.id}, -1)">-</button>
+                        <button onclick="alterarQuantidade('${item.carrinhoId}', -1)">-</button>
                         <span>${item.quantidade}</span>
-                        <button onclick="alterarQuantidade(${item.id}, 1)">+</button>
+                        <button onclick="alterarQuantidade('${item.carrinhoId}', 1)">+</button>
                     </div>
                 </div>
-                <button class="btn-remover-item" onclick="removerDoCarrinho(${item.id})">Remover</button>
+                <button class="btn-remover-item" onclick="removerDoCarrinho('${item.carrinhoId}')">Remover</button>
             </div>
         `;
     });
 
-    contadorTopo.innerText = totalItens;
-    totalTela.innerText = `R$ ${totalAcumulado.toFixed(2).replace('.', ',')}`;
+    if(contadorTopo) contadorTopo.innerText = totalItens;
+    if(totalTela) totalTela.innerText = `R$ ${totalAcumulado.toFixed(2).replace('.', ',')}`;
 }
 
-// NOVA FUNÇÃO: Controla o clique no + e - dentro do carrinho
-function alterarQuantidade(idDeProduto, mudanca) {
-    // Encontra o item dentro do carrinho
-    const itemEncontrado = carrinho.find(item => item.id === idDeProduto);
-    
-    if (itemEncontrado) {
-        itemEncontrado.quantidade += mudanca;
-        
-        // Se a quantidade chegar a 0 ou menos, removemos o item do carrinho automaticamente
-        if (itemEncontrado.quantidade <= 0) {
-            removerDoCarrinho(idDeProduto);
-            return;
-        }
-        
-        // Salva a nova quantidade no navegador e atualiza a tela
-        localStorage.setItem("carrinho_bymia", JSON.stringify(carrinho));
-        atualizarInterfaceCarrinho();
-    }
-}
-
-// ==========================================
-// 3. COMPILAÇÃO E DISPARO PARA O WHATSAPP
-// ==========================================
 function finalizarPedidoWhats() {
-    if (carrinho.length === 0) {
-        alert("Seu carrinho está vazio!");
-        return;
-    }
+    if (carrinho.length === 0) return;
 
-    let numeroWhats = "5571982752913"; // Substitua pelo número real dela
-    let textoMensagem = "Olá, Mia! \nGostaria de fazer o pedido dos seguintes itens do site:\n\n";
+    let numeroWhats = "5571999999999"; // Ajuste o número real aqui
+    let textoMensagem = "Olá, Mia! ✨\nGostaria de encomendar os seguintes itens do site:\n\n";
     let total = 0;
 
     carrinho.forEach(item => {
@@ -175,131 +222,31 @@ function finalizarPedidoWhats() {
         total += subtotal;
         const etiquetaEstoque = item.disponivel ? "[Pronta Entrega]" : "[PEDIDO SOB ENCOMENDA]";
         
-        textoMensagem += `    ${item.quantidade}x ${item.nome}\n`;
+        textoMensagem += `🔹 ${item.quantidade}x ${item.nome}\n`;
+        textoMensagem += `    Tamanho: ${item.tamanhoEscolhido} | Cor: ${item.corEscolhida}\n`;
         textoMensagem += `    Status: ${etiquetaEstoque}\n`;
         textoMensagem += `    Valor: R$ ${subtotal.toFixed(2).replace('.', ',')}\n\n`;
     });
 
     textoMensagem += `-----------------------------\n`;
-    textoMensagem += ` *Valor Total do Pedido:* R$ ${total.toFixed(2).replace('.', ',')}\n\n`;
-    textoMensagem += `Como faço para prosseguir com o pagamento e entrega? `;
+    textoMensagem += `💰 *Valor Total:* R$ ${total.toFixed(2).replace('.', ',')}\n\n`;
+    textoMensagem += `Como faço para prosseguir com o pagamento? 🥰`;
 
-    // Converte o texto plano em um formato de URL seguro para a internet
-    const linkFinal = `https://wa.me/${numeroWhats}?text=${encodeURIComponent(textoMensagem)}`;
-    
-    // Abre o WhatsApp em uma nova aba
-    window.open(linkFinal, "_blank");
+    window.open(`https://wa.me/${numeroWhats}?text=${encodeURIComponent(textoMensagem)}`, "_blank");
 }
 
-// O restante do código abaixo (Lógica de abrir/fechar chat e conexão com a API da Groq) CONTINUA IGUALZINHO.
-
 // ==========================================
-// 2. LÓGICA DE MINIMIZAR / ABRIR O CHATBOT
+// 4. INTEGRAÇÃO DOS CHATS (MIA / GROQ)
 // ==========================================
-const chatJanela = document.getElementById("chat-janela");
-const chatHeader = document.querySelector(".chat-header");
+// (Deixe a sua lógica antiga de 'enviarMensagemParaIA' e controle do ChatJanela idêntica aqui abaixo)
 
-// Inicializa o chat já minimizado por padrão ao carregar a página
-chatJanela.classList.add("minimizado");
-chatHeader.innerHTML += ' <span id="icone-chat">▲</span>'; // Adiciona uma setinha indicativa
-
-// Escuta o clique no cabeçalho do robô
-chatHeader.addEventListener("click", () => {
-    // Altera o estado (se tiver a classe 'minimizado', remove. Se não tiver, adiciona)
-    chatJanela.classList.toggle("minimizado");
-    
-    // Altera a setinha para cima ou para baixo para dar o feedback visual
-    const icone = document.getElementById("icone-chat");
-    if (chatJanela.classList.contains("minimizado")) {
-        icone.innerText = "▲";
-    } else {
-        icone.innerText = "▼";
+// ROTEADOR DE INICIALIZAÇÃO
+document.addEventListener("DOMContentLoaded", () => {
+    if (document.getElementById("grade-produtos")) {
+        carregarProdutos(produtos);
     }
-});
-
-// Executa automaticamente a montagem dos produtos assim que o site abre
-window.onload = () => {
-    carregarProdutos(produtos);
-};
-
-// ==========================================
-// 3. INTEGRAÇÃO CONEXÃO DO CHATBOT (IA)
-// ==========================================
-const btnEnviarChat = document.getElementById("btn-enviar-chat");
-const inputChat = document.getElementById("chat-input");
-const containerMensagens = document.getElementById("chat-mensagens");
-
-async function enviarMensagemParaIA() {
-    const textoMensagem = inputChat.value.trim();
-    if (!textoMensagem) return; // Se estiver vazio, não faz nada
-
-    // 1. Limpa o campo de texto e adiciona a mensagem da cliente na tela
-    inputChat.value = "";
-    containerMensagens.innerHTML += `
-        <div class="msg-usuario" style="background-color: var(--vinho-logo); color: #fff; padding: 10px 14px; border-radius: 12px 12px 0 12px; align-self: flex-end; max-width: 85%; margin-bottom: 5px;">
-            ${textoMensagem}
-        </div>
-    `;
-    
-    containerMensagens.scrollTop = containerMensagens.scrollHeight;
-
-    // 2. Cria o balão de "digitando..."
-    const idIdCarregando = "msg-loading-" + Date.now();
-    containerMensagens.innerHTML += `
-        <div class="msg-bot" id="${idIdCarregando}">
-            <em>Mia está digitando... ✨</em>
-        </div>
-    `;
-    containerMensagens.scrollTop = containerMensagens.scrollHeight;
-
-    try {
-        // 3. Faz a requisição para a nossa rota do servidor na Vercel
-        const resposta = await fetch("/api/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ mensagemUsuario: textoMensagem })
-        });
-
-        const dados = await resposta.json();
-
-        if (!resposta.ok) {
-            throw new Error(dados.error || "Erro na resposta do servidor");
-        }
-
-        // Pega o texto gerado pela Groq que o nosso back-end mastigou
-        const respostaDaMia = dados.respostaMia;
-
-        // 4. Injeta a resposta oficial da assistente no chat
-        containerMensagens.innerHTML += `
-            <div class="msg-bot">
-                ${respostaDaMia.replace(/\n/g, '<br>')}
-            </div>
-        `;
-
-    } catch (erro) {
-        console.error("Erro no chat:", erro);
-        // Agora, se houver erro, ele será exibido graciosamente na tela
-        containerMensagens.innerHTML += `
-            <div class="msg-bot" style="color: #ef4444;">
-                Desculpe, tive um probleminha técnico para me conectar. Pode tentar de novo? 💫
-            </div>
-        `;
-    } finally {
-        // O bloco 'finally' roda SEMPRE (dando certo ou errado) e remove o carregamento com segurança
-        const elementoLoading = document.getElementById(idIdCarregando);
-        if (elementoLoading) {
-            elementoLoading.remove();
-        }
-        containerMensagens.scrollTop = containerMensagens.scrollHeight;
+    if (document.getElementById("detalhe-produto-container")) {
+        carregarProdutoDetalhe();
     }
-}
-
-// Escuta o clique no botão de Enviar do chat
-btnEnviarChat.addEventListener("click", enviarMensagemParaIA);
-
-// Permite enviar a mensagem apenas apertando a tecla "Enter" no teclado
-inputChat.addEventListener("keypress", (evento) => {
-    if (evento.key === "Enter") {
-        enviarMensagemParaIA();
-    }
+    atualizarInterfaceCarrinho();
 });
