@@ -89,7 +89,13 @@ function carregarProdutoDetalhe() {
     if (containerCores) {
         containerCores.innerHTML = "";
         produto.cores.forEach((c, i) => {
-            containerCores.innerHTML += `<button class="opcao-pilula ${i === 0 ? 'ativa' : ''}" onclick="selecionarVariacao(this)">${c}</button>`;
+            // Guardamos o link da imagem dentro do atributo data-imagem
+            containerCores.innerHTML += `
+                <button class="opcao-pilula ${i === 0 ? 'ativa' : ''}" 
+                        data-imagem="${c.imagem}" 
+                        onclick="selecionarVariacao(this)">
+                    ${c.nome}
+                </button>`;
         });
     }
 
@@ -108,9 +114,19 @@ function carregarProdutoDetalhe() {
 }
 
 function selecionarVariacao(botao) {
+    // Mantém a lógica visual de acender o botão clicado e apagar os outros
     const botoesIrmaos = botao.parentNode.querySelectorAll(".opcao-pilula");
     botoesIrmaos.forEach(b => b.classList.remove("ativa"));
     botao.classList.add("ativa");
+
+    // MÁGICA DA COR: Se o botão clicado tiver uma imagem guardada nele, nós trocamos a foto da tela
+    const novaImagem = botao.getAttribute("data-imagem");
+    if (novaImagem) {
+        const elementoFotoPrincipal = document.getElementById("detalhe-img");
+        if (elementoFotoPrincipal) {
+            elementoFotoPrincipal.src = novaImagem;
+        }
+    }
 }
 
 function adicionarAoCarrinhoComVariacao(idDeProduto) {
