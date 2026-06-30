@@ -3,10 +3,10 @@
 const produtos = [
   {
     id: 1,
-    nome: "Baby-doll de Renda Premium",
+    nome: "Camisolas Premium",
     categoria: "camisolas",
     preco: 129.90,
-    imagem: "img/teste1.jpg", // Caminho da foto na pasta img
+    imagem: "img/camisola-vermelha.jpg", // Caminho da foto na pasta img
     disponivel: true,
     tamanhos: ["P", "M", "G", "GG"],
     cores: [
@@ -20,7 +20,7 @@ const produtos = [
     nome: "Conjunto Lingerie Rendada",
     categoria: "lingerie",
     preco: 89.90,
-    imagem: "img/teste.jpg", // Caminho da foto na pasta img
+    imagem: "img/lingerie-lilas.jpg", // Caminho da foto na pasta img
     disponivel: true,
     tamanhos: ["P", "M", "G", "GG"],
     cores: [
@@ -34,7 +34,7 @@ const produtos = [
     nome: "Corset de Sedução",
     categoria: "corsets",
     preco: 159.90,
-    imagem: "img/teste3.jpg",
+    imagem: "img/corset-preto.jpg",
     disponivel: false, // Fora de estoque -> vai ficar cinza
     tamanhos: ["P", "M", "G", "GG"],
     cores: [
