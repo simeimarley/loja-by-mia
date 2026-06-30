@@ -10,9 +10,9 @@ const produtos = [
     disponivel: true,
     tamanhos: ["P", "M", "G", "GG"],
     cores: [
-      { nome: "Vermelho", imagem: "img/teste1.jpg" },
-      { nome: "Preto", imagem: "img/babydoll-preto.jpg" },
-      { nome: "Romance", imagem: "img/babydoll-romance.jpg" }
+      { nome: "Vermelho", imagem: "img/camisola-vermelha.jpg" },
+      { nome: "Preto", imagem: "img/camisola-preta.jpg" },
+      { nome: "Azul", imagem: "img/camisola-azul.jpg" }
     ]
   },
   {
@@ -24,23 +24,23 @@ const produtos = [
     disponivel: true,
     tamanhos: ["P", "M", "G", "GG"],
     cores: [
-      { nome: "Lilas", imagem: "img/teste.jpg" },
-      { nome: "Romance", imagem: "img/conjunto-romance.jpg" },
-      { nome: "Marsala", imagem: "img/conjunto-marsala.jpg" }
+      { nome: "Lilas", imagem: "img/lingerie-lilas.jpg" },
+      { nome: "Preta", imagem: "img/lingerie-preta.jpg" },
+      { nome: "Branca", imagem: "img/lingerie-branca.jpg" }
     ]
   },
   {
     id: 3,
-    nome: "Corset de Sedução - Branco",
+    nome: "Corset de Sedução",
     categoria: "corsets",
     preco: 159.90,
     imagem: "img/teste3.jpg",
     disponivel: false, // Fora de estoque -> vai ficar cinza
     tamanhos: ["P", "M", "G", "GG"],
     cores: [
-      { nome: "Branco", imagem: "img/teste3.jpg" },
       { nome: "Preto", imagem: "img/corset-preto.jpg" },
-      { nome: "Vermelho", imagem: "img/corset-vermelho.jpg" }
+      { nome: "Vermelho", imagem: "img/corset-vermelho.jpg" },
+      { nome: "Preto Floral", imagem: "img/corset-preto-floral.jpg" }
     ]
   }
 ];
