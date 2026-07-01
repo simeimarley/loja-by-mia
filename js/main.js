@@ -103,7 +103,7 @@ function carregarProdutoDetalhe() {
     const btnAcao = document.getElementById("btn-adicionar-detalhe");
     if (btnAcao) {
         if (produto.disponivel) {
-            btnAcao.innerHTML = "🛍️ Adicionar à Sacola";
+            btnAcao.innerHTML = "🛍️ Adicionar ao Carrinho";
             btnAcao.className = "btn-comprar-detalhe";
         } else {
             btnAcao.innerHTML = "📩 Encomendar no Tamanho Ideal";
@@ -160,7 +160,7 @@ function adicionarAoCarrinhoComVariacao(idDeProduto) {
 }
 
 // ==========================================
-// 3. CONTROLE DA SACOLA DE COMPRAS
+// 3. CONTROLE DO CARRINHO DE COMPRAS
 // ==========================================
 function abrirCarrinho() {
     const lateral = document.getElementById("carrinho-lateral");
@@ -206,7 +206,7 @@ function atualizarInterfaceCarrinho() {
     let totalItens = 0;
 
     if (carrinho.length === 0) {
-        containerItens.innerHTML = `<p style="text-align:center; color:#71717a; margin-top:20px;">Sua sacola está vazia... 🌸</p>`;
+        containerItens.innerHTML = `<p style="text-align:center; color:#71717a; margin-top:20px;">Seu carrinho está vazio... 🌸</p>`;
     }
 
     carrinho.forEach(item => {
@@ -216,8 +216,8 @@ function atualizarInterfaceCarrinho() {
         const statusEstoque = item.disponivel ? "" : " <small style='color:#ef4444;'>(Sob Encomenda)</small>";
 
         containerItens.innerHTML += `
-            <div class="item-sacola">
-                <div class="item-sacola-info">
+            <div class="item-carrinho">
+                <div class="item-carrinho-info">
                     <h4>${item.nome}${statusEstoque}</h4>
                     <small style="color: #71717a; display: block; margin: 2px 0 6px 0;">Tam: ${item.tamanhoEscolhido} | Cor: ${item.corEscolhida}</small>
                     <p>R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
