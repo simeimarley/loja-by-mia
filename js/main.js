@@ -79,8 +79,31 @@ function carregarProdutoDetalhe() {
     const containerTamanhos = document.getElementById("seletor-tamanhos");
     if (containerTamanhos) {
         containerTamanhos.innerHTML = "";
-        produto.tamanhos.forEach((t, i) => {
-            containerTamanhos.innerHTML += `<button class="opcao-pilula ${i === 0 ? 'ativa' : ''}" onclick="selecionarVariacao(this)">${t}</button>`;
+        
+        // Variável de controle para marcar como 'ativa' apenas a primeira pílula que REALMENTE tiver estoque
+        let marcouPrimeiroDisponivel = false;
+
+        produto.tamanhos.forEach((t) => {
+            // Se o dado for um objeto novo com controle de estoque
+            if (typeof t === 'object') {
+                let classeAtiva = "";
+                
+                // Se o tamanho tem estoque e ainda não marcamos nenhum como ativo, ativa ele
+                if (t.disponivel && !marcouPrimeiroDisponivel) {
+                    classeAtiva = "ativa";
+                    marcouPrimeiroDisponivel = true;
+                }
+
+                containerTamanhos.innerHTML += `
+                    <button class="opcao-pilula ${classeAtiva} ${!t.disponivel ? 'indisponivel' : ''}" 
+                            ${!t.disponivel ? 'disabled' : ''} 
+                            onclick="selecionarVariacao(this)">
+                        ${t.nome}
+                    </button>`;
+            } else {
+                // Linha de segurança: caso algum produto antigo ainda use texto puro ["P", "M"]
+                containerTamanhos.innerHTML += `<button class="opcao-pilula" onclick="selecionarVariacao(this)">${t}</button>`;
+            }
         });
     }
 

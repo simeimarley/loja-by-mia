@@ -790,3 +790,21 @@ header {
   background-color: #71717a;
   color: var(--branco-puro);
 }
+
+/* === ESTILO PARA VARIANTES ESGOTADAS === */
+
+.opcao-pilula.indisponivel {
+  background-color: #f4f4f5 !important; /* Fundo cinza bem suave */
+  color: #a1a1aa !important;            /* Texto apagado */
+  border-color: #e4e4e7 !important;     /* Borda discreta */
+  text-decoration: line-through;        /* Risca o texto (Ex: P) */
+  cursor: not-allowed;                  /* Cursor de bloqueado 🚫 */
+  opacity: 0.65;
+}
+
+/* Garante que mesmo passando o mouse, o botão esgotado não mude de cor */
+.opcao-pilula.indisponivel:hover {
+  background-color: #f4f4f5 !important;
+  color: #a1a1aa !important;
+  border-color: #e4e4e7 !important;
+}

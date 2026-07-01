@@ -8,7 +8,12 @@ const produtos = [
     preco: 129.90,
     imagem: "img/camisola-vermelha.jpg", // Caminho da foto na pasta img
     disponivel: true,
-    tamanhos: ["P", "M", "G", "GG"],
+    tamanhos: [
+      { nome: "P", disponivel: true },
+      { nome: "M", disponivel: true },
+      { nome: "G", disponivel: false }, // Esse vai aparecer bloqueado/riscado
+      { nome: "GG", disponivel: true }
+    ],
     cores: [
       { nome: "Vermelho", imagem: "img/camisola-vermelha.jpg" },
       { nome: "Preto", imagem: "img/camisola-preta.jpg" },
@@ -22,7 +27,12 @@ const produtos = [
     preco: 89.90,
     imagem: "img/lingerie-lilas.jpg", // Caminho da foto na pasta img
     disponivel: true,
-    tamanhos: ["P", "M", "G", "GG"],
+    tamanhos: [
+      { nome: "P", disponivel: true },
+      { nome: "M", disponivel: true },
+      { nome: "G", disponivel: false },
+      { nome: "GG", disponivel: true }
+    ],
     cores: [
       { nome: "Lilas", imagem: "img/lingerie-lilas.jpg" },
       { nome: "Preta", imagem: "img/lingerie-preta.jpg" },
@@ -36,7 +46,12 @@ const produtos = [
     preco: 159.90,
     imagem: "img/corset-preto.jpg",
     disponivel: false, // Fora de estoque -> vai ficar cinza
-    tamanhos: ["P", "M", "G", "GG"],
+    tamanhos: [
+      { nome: "P", disponivel: true },
+      { nome: "M", disponivel: true },
+      { nome: "G", disponivel: false },
+      { nome: "GG", disponivel: true }
+    ],
     cores: [
       { nome: "Preto", imagem: "img/corset-preto.jpg" },
       { nome: "Vermelho", imagem: "img/corset-vermelho.jpg" },
